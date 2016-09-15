@@ -1,0 +1,3 @@
+librinfo_media_homepage:
+    path:     /
+    defaults: { _controller: LibrinfoMediaBundle:Default:index }
