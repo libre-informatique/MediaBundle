@@ -1,0 +1,33 @@
+
+{% extends 'LibrinfoCoreBundle:CRUD:base_edit.html.twig' %}
+
+{% block form %}
+    {{ parent() }}
+    {{ block('dropzone_messages') }}
+    {{ block('dropzone_template') }}
+{% endblock %}
+
+{% block dropzone_messages %}
+    {{ parent() }}
+    <script type="text/javascript">
+    var dropzoneMessages = {
+        'defaultMessage': '{{ 'dropzone.defaultMessage'|trans() }}',
+        'fallbackMessage': '{{ 'dropzpone.fallbackMessage'|trans() }}',
+        'fallbackText': '{{ 'dropzone.fallbackText'|trans() }}',
+        'invalidFileType': '{{ 'dropzone.invalidFileType'|trans() }}',
+        'fileTooBig': '{{ 'dropzone.fileTooBig'|trans() }}',
+        'responseError': '{{ 'dropzone.responseError'|trans() }}',
+        'maxFilesExceeded': '{{ 'dropzone.maxFilesExceeded'|trans() }}'
+    };
+    </script>
+{% endblock %}
+
+{% block dropzone_template %}
+    {% include 'LibrinfoMediaBundle:dropzone:dropzone_template.mustache.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/librinfomedia/js/vendor/mustache.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/librinfomedia/js/upload.js') }}"></script>
+{% endblock %}

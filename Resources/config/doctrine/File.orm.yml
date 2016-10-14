@@ -1,0 +1,18 @@
+Librinfo\MediaBundle\Entity\File:
+    type: entity
+    fields:
+        name:
+            type: string
+            nullable: true
+        mimeType:
+            type: string
+            nullable: true
+        size:
+            type: float
+            nullable: true
+        file:
+            type: text
+            nullable: true
+        tempId:
+            type: string
+            nullable: true

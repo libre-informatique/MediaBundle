@@ -1,5 +1,9 @@
 services:
-    
+### TWIG EXTENSIONS ###    
+    librinfo_media.twig_extension.img_tag_generator:
+        class: Librinfo\MediaBundle\Twig\Extension\GenerateImgTagExtension
+        tags:
+            - { name: twig.extension }
 ### FORM TYPES ###
     librinfo_media.form.type.dropzone:
         class: Librinfo\MediaBundle\Form\Type\DropzoneType
