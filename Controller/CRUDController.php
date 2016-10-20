@@ -65,7 +65,7 @@ class CRUDController extends BaseCRUDController
         }
 
         $this->admin->setSubject($object);
-       
+
         /** @var $form \Symfony\Component\Form\Form */
         $form = $this->admin->getForm();
         $form->setData($object);
