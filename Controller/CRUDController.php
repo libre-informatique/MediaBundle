@@ -11,7 +11,6 @@
 
 namespace Librinfo\MediaBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Librinfo\CoreBundle\Controller\CRUDController as BaseCRUDController;
 
 /**
@@ -20,8 +19,7 @@ use Librinfo\CoreBundle\Controller\CRUDController as BaseCRUDController;
  * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class CRUDController extends BaseCRUDController
-{   
-    
+{    
     /**
      *
      * @var EntityManager $manager
