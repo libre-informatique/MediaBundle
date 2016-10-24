@@ -3,6 +3,10 @@
     <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
         <body>
             <!--dropzone-->
+            <trans-unit id="d39ec66f08507e26fe86aa5325d070df" resname="Add files">
+                <source>Add files</source>
+                <target>Ajouter des fichiers</target>
+            </trans-unit>
             <trans-unit id="371463377e6e804294372450e1618d11" resname="dropzone.defaultMessage">
                 <source>Drop files here</source>
                 <target>Glisser vos fichiers ici</target>

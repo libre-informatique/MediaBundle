@@ -6,10 +6,10 @@
         <div class="dropzone-btn">
             <button class="btn btn-success btn-sm sonata-ba-action add_files">
                 <i class="glyphicon glyphicon-plus"></i>
-                {{ 'Add files'|trans({}, 'LibrinfoEmailBundle') }}
+                {{ 'Add files'|trans() }}
             </button>
         </div>
     {% endspaceless %}
-        <link href="{{ asset('bundles/librinfomedia/css/dropzone.css') }}" type="text/css" rel="stylesheet" />
+        <link href="{{ asset('bundles/librinfomedia/css/dropzone.css') }}" type="text/css" rel="stylesheet"/>
         <script type="text/javascript" src="{{ asset('bundles/librinfomedia/js/dropzone.js') }}"></script>
 {% endblock %}
