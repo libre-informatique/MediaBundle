@@ -55,7 +55,7 @@ class CRUDController extends BaseCRUDController
         }
 
         $object = $object ? $object : $this->admin->getNewInstance();
-
+        
         $preResponse = $this->preCreate($request, $object);
         if ($preResponse !== null)
         {
@@ -268,10 +268,14 @@ class CRUDController extends BaseCRUDController
         $rc = new \ReflectionClass($object);
         $setter = 'set' . $rc->getShortName();
         
-        $repo = $this->manager->getRepository("LibrinfoMediaBundle:File");
-        $files = $repo->findBy(array("tempId" => $tempId));
+        $repo = $this->manager->getRepository('LibrinfoMediaBundle:File');
+        $files = $repo->findBy(array(
+            'tempId' => $tempId,
+            strtolower($rc->getShortName()) => null
+            ));
 
         foreach ($files as $file)
             $file->$setter($object);
     }
+ 
 }

@@ -5,6 +5,7 @@
     {{ parent() }}
     {{ block('dropzone_messages') }}
     {{ block('dropzone_template') }}
+    
 {% endblock %}
 
 {% block dropzone_messages %}
@@ -25,6 +26,10 @@
 {% block dropzone_template %}
     {% include 'LibrinfoMediaBundle:dropzone:dropzone_template.mustache.twig' %}
 {% endblock %}
+
+{#{% block temp_id %}
+    <input type="hidden" value="EEEEEEEEEE" id="temp_id" name="temp_id">
+{% endblock %}#}
 
 {% block javascripts %}
     {{ parent() }}

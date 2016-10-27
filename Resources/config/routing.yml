@@ -1,8 +1,8 @@
-#upload attachments
+#upload files
 librinfo_media.upload:
     path:     librinfo/media/upload
     defaults: { _controller: LibrinfoMediaBundle:Upload:upload }
-# remove uploaded attachments
+# remove uploaded files
 librinfo_media.remove:
     path:     librinfo/media/remove/{fileName}/{fileSize}/{tempId}
     defaults: { _controller: LibrinfoMediaBundle:Upload:remove }
@@ -11,4 +11,9 @@ librinfo_media.remove:
 librinfo_media.load:
     path:     librinfo/media/load/{ownerId}/{ownerType}
     defaults: { _controller: LibrinfoMediaBundle:Upload:load } 
+
+# update uploaded files
+librinfo_media.update:
+    path:     librinfo/media/update
+    defaults: { _controller: LibrinfoMediaBundle:Upload:update } 
 

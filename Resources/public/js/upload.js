@@ -107,8 +107,7 @@ function setupDropzone() {
         updateProgressBar(1);
 
         //replace generated tempId with existing files tempId
-        if (getAction() == 'edit') {
-
+        if (getAction() != 'create') {
             $('input[name="temp_id"]').attr("value", file.tempId);
         }
 
@@ -125,12 +124,27 @@ function setupDropzone() {
 function retrieveFiles(dropzone) {
 
     $.get('/librinfo/media/load/' + getOwnerId() + '/' + getOwnerType(), function (files) {
-
-
+        
         for (var i = 0; i < files.length; i++) {
             dropzone.emit('addedfile', files[i]);
             dropzone.createThumbnailFromUrl(files[i], generateImgUrl(files[i]));
             dropzone.emit('complete', files[i]);
+        }
+        
+        if(getAction() != 'edit'){
+            var tempIdInput = $('input[name="temp_id"]');
+            var newTempId = generateUUID();
+            
+            $.post('/librinfo/media/update',
+                {
+                    'temp_id': tempIdInput.val(),
+                    'new_temp_id': newTempId,
+                    'owner_type' : getOwnerType()
+                },
+                function(data){
+                    tempIdInput.val(data);
+                }
+            );
         }
     });
 }

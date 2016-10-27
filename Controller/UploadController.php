@@ -25,7 +25,6 @@ class UploadController extends Controller
         $file = $request->files->get('file');
 
         $new = new File();
-
         $new->setTempId($tempId);
         $new->setFile($file);
         $new->setMimeType($file->getMimeType());
@@ -80,6 +79,28 @@ class UploadController extends Controller
             $file->setFile($file->getBase64File());
 
         return new JsonResponse($files, 200);
+    }
+    
+    public function updateAction()
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $repo = $this->getDoctrine()->getRepository('LibrinfoMediaBundle:File');
+        $request = $this->getRequest();
+        $newTempId = $request->get('new_temp_id');
+        
+        $files = $repo->findBy(array(
+            'tempId' => $request->get('temp_id'),
+            $request->get('owner_type') => null
+            ));
+dump($request->get('temp_id'));
+        foreach($files as $file)
+        {
+            $file->setTempId($newTempId);
+            $manager->persist($file);
+        }
+        $manager->flush();
+        
+        return new Response($newTempId, 200);
     }
 
 }

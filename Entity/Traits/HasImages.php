@@ -20,7 +20,6 @@ trait HasImages
      */
     public function addImage($image)
     {
-        die('addImage');
         $this->images[] = $image;
         return $this;
     }
@@ -54,7 +53,6 @@ trait HasImages
      */
     public function setImages($images)
     {
-        die('setImages');
         $this->images = $images;
         return $this;
     }

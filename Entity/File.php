@@ -208,5 +208,10 @@ class File implements \JsonSerializable
     {
         return $this->tempId;
     }
+    
+    public function __clone()
+    {
+        $this->id = null;
+    }
 
 }
