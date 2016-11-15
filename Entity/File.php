@@ -212,6 +212,7 @@ class File implements \JsonSerializable
     public function __clone()
     {
         $this->id = null;
+        $this->$this->initOuterExtendedClasses();;
     }
 
 }
