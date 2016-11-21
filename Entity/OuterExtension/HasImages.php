@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\MediaBundle\Entity\Traits;
+namespace Librinfo\MediaBundle\Entity\OuterExtension;
 
 use Doctrine\Common\Collections\Collection;
 

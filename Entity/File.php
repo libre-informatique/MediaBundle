@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Librinfo\DoctrineBundle\Entity\Traits\BaseEntity;
 use Librinfo\OuterExtensionBundle\Entity\Traits\OuterExtensible;
 use Librinfo\DoctrineBundle\Entity\Traits\Jsonable;
-use AppBundle\Entity\Extension\FileExtension;
+use AppBundle\Entity\OuterExtension\LibrinfoMediaBundle\FileExtension;
 
 /**
  * File
