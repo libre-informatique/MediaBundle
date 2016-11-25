@@ -11,7 +11,7 @@
 
 namespace Librinfo\MediaBundle\Controller;
 
-use Librinfo\CoreBundle\Controller\CRUDController as BaseCRUDController;
+use Blast\CoreBundle\Controller\CRUDController as BaseCRUDController;
 
 /**
  * Class CRUDController.
