@@ -4,7 +4,7 @@ namespace Librinfo\MediaBundle\Entity;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Librinfo\BaseEntitiesBundle\Entity\Traits\BaseEntity;
-use Librinfo\OuterExtensionBundle\Entity\Traits\OuterExtensible;
+use Blast\OuterExtensionBundle\Entity\Traits\OuterExtensible;
 use Librinfo\BaseEntitiesBundle\Entity\Traits\Jsonable;
 use AppBundle\Entity\OuterExtension\LibrinfoMediaBundle\FileExtension;
 
