@@ -3,7 +3,7 @@
 namespace Librinfo\MediaBundle\Form\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Librinfo\CoreBundle\Form\AbstractType as BaseAbstractType;
+use Blast\CoreBundle\Form\AbstractType as BaseAbstractType;
 
 /**
  * File upload form type
