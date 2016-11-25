@@ -3,6 +3,7 @@
 namespace Librinfo\MediaBundle\Entity\OuterExtension;
 
 use Doctrine\Common\Collections\Collection;
+use Librinfo\MediaBundle\Entity\Image;
 
 trait HasImages
 {   
@@ -16,9 +17,9 @@ trait HasImages
      *
      * @param object $image
      *
-     * @return this
+     * @return $this
      */
-    public function addImage($image)
+    public function addImage(Image $image)
     {
         $this->images[] = $image;
         return $this;
@@ -31,7 +32,7 @@ trait HasImages
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeImage($image)
+    public function removeImage(Image $image)
     {
         return $this->images->removeElement($image);
     }
@@ -49,12 +50,11 @@ trait HasImages
     /**
      * Set images
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return $this
      */
-    public function setImages($images)
+    public function setImages(array $images)
     {
         $this->images = $images;
         return $this;
     }
-
 }

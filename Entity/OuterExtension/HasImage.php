@@ -2,6 +2,8 @@
 
 namespace Librinfo\MediaBundle\Entity\OuterExtension;
 
+use Librinfo\MediaBundle\Entity\Image;
+
 trait HasImage
 {
     /**
@@ -16,7 +18,7 @@ trait HasImage
      *
      * @return this
      */
-    public function setImage($image)
+    public function setImage(Image $image)
     {
         $this->image = $image;
         return $this;
