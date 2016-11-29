@@ -2,7 +2,7 @@
 
 namespace Librinfo\MediaBundle\Entity\OuterExtension;
 
-use Librinfo\MediaBundle\Entity\Image;
+use Librinfo\MediaBundle\Entity\File;
 
 trait HasImage
 {
@@ -14,11 +14,11 @@ trait HasImage
     /**
      * Set image
      *
-     * @param object $image
+     * @param File $image
      *
      * @return this
      */
-    public function setImage(Image $image)
+    public function setImage(File $image)
     {
         $this->image = $image;
         return $this;
@@ -27,7 +27,7 @@ trait HasImage
     /**
      * Get image
      *
-     * @return Image
+     * @return File
      */
     public function getImage()
     {
