@@ -1,0 +1,8 @@
+'Add files': 'Ajouter des fichiers'
+'Drop files here': 'Glisser vos fichiers ici'
+'Your browser doesn''t support drag''n''drop file uploads': 'Votre navigateur ne supporte pas l''upload par glisser/deposer'
+'': ''
+'dropzone.invalidFileType': 'Type de fichier non autorisé'
+'dropzone.fileTooBig': 'Taille maximum dépassée'
+'dropzone.responseError': 'Une erreur est survenue'
+'dropzone.maxFilesExceeded': '5 fichiers maximum'
