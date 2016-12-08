@@ -258,6 +258,27 @@ class CRUDController extends BaseCRUDController
     }
     
     /**
+     * Duplicate action
+     *
+     * @return response
+     */
+    public function duplicateAction()
+    {
+        $id = $this->getRequest()->get($this->admin->getIdParameter());
+        $object = $this->admin->getObject($id);
+        $new = clone $object;
+                
+        $this->duplicateFiles($object, $new);
+        
+        $preResponse = $this->preDuplicate($new);
+        if ($preResponse !== null) {
+            return $preResponse;
+        }
+
+        return $this->createAction($new);
+    }
+    
+    /**
      * Binds the uploaded file to its owner on creation
      *
      * @param Object $object
@@ -275,7 +296,24 @@ class CRUDController extends BaseCRUDController
             ));
 
         foreach ($files as $file)
+        {
             $file->$setter($object);
+            $file->setOwned(true);
+        }
+    }
+    
+    protected function duplicateFiles($object, $clone)
+    {
+        $rc = new \ReflectionClass($object);
+        $setter = 'set' . $rc->getShortName();
+        
+        foreach($object->getImages() as $image)
+        {
+            $new = clone $image;
+            $new->setOwned(false);
+            $new->$setter(null);
+            $clone->addImage($new);
+        }
     }
  
 }
