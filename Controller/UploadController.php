@@ -30,6 +30,7 @@ class UploadController extends Controller
         $new->setMimeType($file->getMimeType());
         $new->setName($file->getClientOriginalName());
         $new->setSize($file->getClientSize());
+        $new->setOwned(false);
 
         $manager->persist($new);
         $manager->flush();
@@ -87,12 +88,12 @@ class UploadController extends Controller
         $repo = $this->getDoctrine()->getRepository('LibrinfoMediaBundle:File');
         $request = $this->getRequest();
         $newTempId = $request->get('new_temp_id');
-        
+
         $files = $repo->findBy(array(
             'tempId' => $request->get('temp_id'),
-            $request->get('owner_type') => null
+            'owned' => false
             ));
-dump($request->get('temp_id'));
+        
         foreach($files as $file)
         {
             $file->setTempId($newTempId);

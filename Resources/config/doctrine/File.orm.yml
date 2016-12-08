@@ -16,3 +16,6 @@ Librinfo\MediaBundle\Entity\File:
         tempId:
             type: string
             nullable: true
+        owned:
+            type: boolean
+            nullable: true

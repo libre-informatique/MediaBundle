@@ -49,6 +49,11 @@ class File implements \JsonSerializable
     private $parent;
     
     /**
+     * @var boolean
+     */
+    private $owned;
+    
+    /**
      * 
      */
     public function __construct()
@@ -190,7 +195,7 @@ class File implements \JsonSerializable
      *
      * @param string $tempId
      *
-     * @return EmailAttachment
+     * @return File
      */
     public function setTempId($tempId)
     {
@@ -207,6 +212,30 @@ class File implements \JsonSerializable
     public function getTempId()
     {
         return $this->tempId;
+    }
+    
+    /**
+     * Set owned
+     *
+     * @param string $owned
+     *
+     * @return File
+     */
+    public function setOwned($owned)
+    {
+        $this->owned = $owned;
+
+        return $this;
+    }
+
+    /**
+     * Get owned
+     *
+     * @return string
+     */
+    public function getOwned()
+    {
+        return $this->owned;
     }
     
     public function __clone()

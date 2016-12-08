@@ -138,8 +138,7 @@ function retrieveFiles(dropzone) {
             $.post('/librinfo/media/update',
                 {
                     'temp_id': tempIdInput.val(),
-                    'new_temp_id': newTempId,
-                    'owner_type' : getOwnerType()
+                    'new_temp_id': newTempId
                 },
                 function(data){
                     tempIdInput.val(data);
