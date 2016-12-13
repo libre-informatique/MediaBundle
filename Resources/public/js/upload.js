@@ -78,8 +78,8 @@ function setupDropzone() {
             console.log(response);
         });
     });
-
-        retrieveFiles(dropzone);
+    
+    retrieveFiles(dropzone);
 }
 
 // Retrieval of already uploaded files
@@ -92,31 +92,31 @@ function retrieveFiles(dropzone) {
     });
 
     if(oldFiles.length > 0)
-        $.post('/librinfo/media/load', 
-            {
-                old_files: oldFiles
-            }, 
-            function (files) {
+    $.post('/librinfo/media/load', 
+        {
+            old_files: oldFiles
+        }, 
+        function (files) {
 
-                for (var i = 0; i < files.length; i++) {
-                    
-                    $('input[name="old_files[]"][value="' + files[i].id + '"]').remove();
-                    
-                    if( files[i].owned == false )
-                        insertInput(files[i].id);
+            for (var i = 0; i < files.length; i++) {
 
-                    dropzone.emit('addedfile', files[i]);
-                    dropzone.createThumbnailFromUrl(files[i], generateImgUrl(files[i]));
-                    dropzone.emit('complete', files[i]);
-                }
+                $('input[name="old_files[]"][value="' + files[i].id + '"]').remove();
+
+                if( files[i].owned == false )
+                    insertInput(files[i].id);
+
+                dropzone.emit('addedfile', files[i]);
+                dropzone.createThumbnailFromUrl(files[i], generateImgUrl(files[i]));
+                dropzone.emit('complete', files[i]);
             }
-        );
+        }
+    );
 }
 
 function insertInput(id){
     $('<input type="hidden" name="file_ids[]" value=""/>')
-            .val(id)
-            .appendTo($('form[role="form"]'));
+        .val(id)
+        .appendTo($('form[role="form"]'));
 }
 
 function updateProgressBar(e) {
