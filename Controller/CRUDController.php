@@ -69,7 +69,7 @@ class CRUDController extends BaseCRUDController
         $form->setData($object);
         $form->handleRequest($request);
         
-        $this->handleFiles($object, $request->get('temp_id'));
+        $this->handleFiles($object, $request->get('file_ids'));
         
         if ($form->isSubmitted())
         {
@@ -179,7 +179,7 @@ class CRUDController extends BaseCRUDController
         $form->setData($object);
         $form->handleRequest($request);
         
-        $this->handleFiles($object, $request->get('temp_id'));
+        $this->handleFiles($object, $request->get('file_ids'));
         
         if ($form->isSubmitted())
         {
@@ -267,8 +267,11 @@ class CRUDController extends BaseCRUDController
         $id = $this->getRequest()->get($this->admin->getIdParameter());
         $object = $this->admin->getObject($id);
         $new = clone $object;
-                
-        $this->duplicateFiles($object, $new);
+        
+        if( !method_exists($this, 'duplicateFiles') )
+            throw new \Exception('(LibrinfoMediaBundle) You need to implement duplicateFiles($object, $clone) method in your CRUDController in order to use duplicate action on object having files');
+            
+        $this->duplicateFiles($object, $new);  
         
         $preResponse = $this->preDuplicate($new);
         if ($preResponse !== null) {
@@ -282,38 +285,25 @@ class CRUDController extends BaseCRUDController
      * Binds the uploaded file to its owner on creation
      *
      * @param Object $object
-     * @param String $tempId
+     * @param Array $ids
      */
-    protected function handleFiles($object, $tempId)
+    protected function handleFiles($object, $ids)
     {
         $rc = new \ReflectionClass($object);
         $setter = 'set' . $rc->getShortName();
         
         $repo = $this->manager->getRepository('LibrinfoMediaBundle:File');
-        $files = $repo->findBy(array(
-            'tempId' => $tempId,
-            strtolower($rc->getShortName()) => null
-            ));
 
-        foreach ($files as $file)
+        if( $ids )
+        foreach( $ids as $key => $id )
         {
-            $file->$setter($object);
-            $file->setOwned(true);
+            $file = $repo->find($id);
+
+            if( $file )
+            {
+                $file->$setter($object);
+                $file->setOwned(true);
+            }
         }
     }
-    
-    protected function duplicateFiles($object, $clone)
-    {
-        $rc = new \ReflectionClass($object);
-        $setter = 'set' . $rc->getShortName();
-        
-        foreach($object->getImages() as $image)
-        {
-            $new = clone $image;
-            $new->setOwned(false);
-            $new->$setter(null);
-            $clone->addImage($new);
-        }
-    }
- 
 }

@@ -1,5 +1,9 @@
 
 {% block librinfo_dropzone_widget %}
+    {% dump %}
+        {% for file in value%}
+            <input type="hidden" name="old_files[]" value="{{ file.id }}"/>
+        {% endfor %}
     {% spaceless %}
         <div class="dropzone add_files">
         </div>
@@ -10,6 +14,10 @@
             </button>
         </div>
     {% endspaceless %}
+    {% block stylesheets %}
         <link href="{{ asset('bundles/librinfomedia/css/dropzone.css') }}" type="text/css" rel="stylesheet"/>
+    {% endblock %}
+    {% block scripts %}
         <script type="text/javascript" src="{{ asset('bundles/librinfomedia/js/dropzone.js') }}"></script>
+    {% endblock %}
 {% endblock %}

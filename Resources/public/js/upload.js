@@ -3,32 +3,6 @@ $(document).ready(function () {
     setupDropzone();
 });
 
-// Returns the current action (show/list/edit) from url
-function getAction() {
-
-    return window.location.href.split("/").pop();
-}
-
-//Get current object id from url
-function getOwnerId() {
-
-    var splitUrl = window.location.href.split("/");
-
-    splitUrl.pop();
-
-    return splitUrl.pop();
-}
-
-function getOwnerType() {
-
-    var splitUrl = window.location.href.split("/");
-
-    splitUrl.pop();
-    splitUrl.pop();
-
-    return splitUrl.pop();
-}
-
 //handles attachments upload
 function setupDropzone() {
 
@@ -56,46 +30,17 @@ function setupDropzone() {
     //init dropzone plugin
     var dropzone = new Dropzone(".dropzone", options);
 
-    var tempId = generateUUID();
-
-    //append the temporary id to the form so it can be retrieved in CreateAction
-    $('form[role="form"]').append('<input type="hidden" name="temp_id" value="' + tempId + '"/>');
-
-    //register callback on dropzone send event
-    dropzone.on("sending", function (file, xhr, formData) {
-        //add the temporary id to the ajax call formData
-        formData.append("temp_id", $('input[name="temp_id"]').val());
-    });
-
     //prevent submitting of the form when add files button is clicked
     $('.add_files').click(function (e) {
 
         e.preventDefault();
     });
-
-//    $('button.upload').click(function (e) {
-//        e.preventDefault();
-//        dropzone.processQueue();
-//    });
-
-    dropzone.on("queuecomplete", function (progress) {
-
-        updateProgressBar(0);
-    });
-
-    //handles removal of already uploaded files
-    dropzone.on("removedfile", function (file) {
-
-        var tempId = $('input[name="temp_id"]').val();
-
-        $.get('/librinfo/media/remove/' + file.name + '/' + file.size + '/' + tempId, function (response) {
-
-            console.log(response);
-        });
-    });
-
-
+    
+    // check size and start progress bar when a file is added
     dropzone.on("addedfile", function (file) {
+        
+        if( file.id !== undefined )
+            $(file.previewElement).data('file-id', file.id);
         
         //file size validation
         if (file.size > 5 * 1024 * 1024) {
@@ -105,47 +50,73 @@ function setupDropzone() {
         }
 
         updateProgressBar(1);
-
-        //replace generated tempId with existing files tempId
-        if (getAction() != 'create') {
-            $('input[name="temp_id"]').attr("value", file.tempId);
-        }
-
-        //add file info to html tag for ajax call
-        $('button.inline').attr('file_name', file.name);
-        $('button.inline').attr('file_size', file.size);
     });
 
-    //retrieve existing attachments in edit action
-    if (getAction() != 'create')
+    //Last uploaded file id is appended to the form so that it can be linked to owning entity on backend side
+    dropzone.on("success", function( file, result ) {
+
+        $(file.previewElement).data('file-id', result);
+      
+        insertInput(result);
+    });
+
+    //Reset progress bar when done uploading
+    dropzone.on("queuecomplete", function (progress) {
+
+        updateProgressBar(0);
+    });
+    
+    //Removal of already uploaded files
+    dropzone.on("removedfile", function (file) {
+        
+        var id = $(file.previewElement).data('file-id');
+        
+        $('input[name="file_ids[]"][value="' + id + '"]').remove();
+       
+        $.get('/librinfo/media/remove/' + id, function (response) {
+
+            console.log(response);
+        });
+    });
+
         retrieveFiles(dropzone);
 }
 
+// Retrieval of already uploaded files
 function retrieveFiles(dropzone) {
-
-    $.get('/librinfo/media/load/' + getOwnerId() + '/' + getOwnerType(), function (files) {
-        
-        for (var i = 0; i < files.length; i++) {
-            dropzone.emit('addedfile', files[i]);
-            dropzone.createThumbnailFromUrl(files[i], generateImgUrl(files[i]));
-            dropzone.emit('complete', files[i]);
-        }
-        
-        if(getAction() != 'edit'){
-            var tempIdInput = $('input[name="temp_id"]');
-            var newTempId = generateUUID();
-            
-            $.post('/librinfo/media/update',
-                {
-                    'temp_id': tempIdInput.val(),
-                    'new_temp_id': newTempId
-                },
-                function(data){
-                    tempIdInput.val(data);
-                }
-            );
-        }
+    
+    var oldFiles = [];
+    
+    $('input[name="old_files[]"]').each(function(key, input){
+        oldFiles.push($(input).val());
     });
+
+    if(oldFiles.length > 0)
+        $.post('/librinfo/media/load', 
+            {
+                old_files: oldFiles
+            }, 
+            function (files) {
+
+                for (var i = 0; i < files.length; i++) {
+                    
+                    $('input[name="old_files[]"][value="' + files[i].id + '"]').remove();
+                    
+                    if( files[i].owned == false )
+                        insertInput(files[i].id);
+
+                    dropzone.emit('addedfile', files[i]);
+                    dropzone.createThumbnailFromUrl(files[i], generateImgUrl(files[i]));
+                    dropzone.emit('complete', files[i]);
+                }
+            }
+        );
+}
+
+function insertInput(id){
+    $('<input type="hidden" name="file_ids[]" value=""/>')
+            .val(id)
+            .appendTo($('form[role="form"]'));
 }
 
 function updateProgressBar(e) {
@@ -161,17 +132,7 @@ function updateProgressBar(e) {
     }
 }
 
-function generateUUID() {
-
-    var d = new Date().getTime();
-    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var r = (d + Math.random() * 16) % 16 | 0;
-        d = Math.floor(d / 16);
-        return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
-    });
-    return uuid.toUpperCase();
-}
-
 function generateImgUrl(file){
+    
    return 'data:' + file.mimeType + ';base64,' + file.file;
 }

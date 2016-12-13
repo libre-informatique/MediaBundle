@@ -39,11 +39,6 @@ class File implements \JsonSerializable
     private $file;
     
     /**
-     * @var string
-     */
-    private $tempId;
-    
-    /**
      * @var object
      */
     private $parent;
@@ -189,30 +184,6 @@ class File implements \JsonSerializable
     {
         return $this->size;
     }
-
-    /**
-     * Set tempId
-     *
-     * @param string $tempId
-     *
-     * @return File
-     */
-    public function setTempId($tempId)
-    {
-        $this->tempId = $tempId;
-
-        return $this;
-    }
-
-    /**
-     * Get tempId
-     *
-     * @return string
-     */
-    public function getTempId()
-    {
-        return $this->tempId;
-    }
     
     /**
      * Set owned
@@ -241,6 +212,7 @@ class File implements \JsonSerializable
     public function __clone()
     {
         $this->id = null;
+        $this->owned = false;
         $this->initOuterExtendedClasses();
     }
 }

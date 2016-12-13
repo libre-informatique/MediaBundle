@@ -10,7 +10,6 @@ use Librinfo\MediaBundle\Entity\File;
 
 class UploadController extends Controller
 {
-
     /**
      * Upload
      * 
@@ -21,11 +20,9 @@ class UploadController extends Controller
     {
         $manager = $this->getDoctrine()->getManager();
 
-        $tempId = $request->get('temp_id');
         $file = $request->files->get('file');
 
         $new = new File();
-        $new->setTempId($tempId);
         $new->setFile($file);
         $new->setMimeType($file->getMimeType());
         $new->setName($file->getClientOriginalName());
@@ -35,73 +32,50 @@ class UploadController extends Controller
         $manager->persist($new);
         $manager->flush();
 
-        return new Response("Ok", 200);
+        return new Response($new->getId(), 200);
     }
 
     /**
      * Removal
      * 
-     * @param String $fileName
-     * @param String $fileSize
-     * @param String $tempId
+     * @param String $fileId
      * @return Response
      */
-    public function removeAction($fileName, $fileSize, $tempId)
+    public function removeAction($fileId)
     {
-
         $manager = $this->getDoctrine()->getManager();
         $repo = $this->getDoctrine()->getRepository('LibrinfoMediaBundle:File');
 
-        $file = $repo->findOneBy(array(
-            'name' => $fileName,
-            'size' => $fileSize,
-            'tempId' => $tempId
-        ));
+        $file = $repo->find($fileId);
 
         $manager->remove($file);
         $manager->flush();
 
-        return new Response($fileName . " removed successfully", 200);
+        return new Response($file->getName() . " removed successfully", 200);
     }
 
     /**
      * Retrieves
      * 
-     * @param String $parentId
+     * @param Request $request
      * @return Response files converted to json array
      */
-    public function loadAction($ownerId, $ownerType)
+    public function loadAction(Request $request)
     {
         $repo = $this->getDoctrine()->getRepository('LibrinfoMediaBundle:File');
-
-        $files = $repo->findBy([$ownerType => $ownerId]);
+        $files = [];
         
-        foreach($files as $key => $file)
-            $file->setFile($file->getBase64File());
-
+        foreach( $request->get('old_files') as $key => $id )
+        {
+            $file = $repo->find($id);
+            
+            if ( $file )
+            {
+                $file->setFile($file->getBase64File());
+                $files[] = $file;
+            }
+        }
+            
         return new JsonResponse($files, 200);
     }
-    
-    public function updateAction()
-    {
-        $manager = $this->getDoctrine()->getManager();
-        $repo = $this->getDoctrine()->getRepository('LibrinfoMediaBundle:File');
-        $request = $this->getRequest();
-        $newTempId = $request->get('new_temp_id');
-
-        $files = $repo->findBy(array(
-            'tempId' => $request->get('temp_id'),
-            'owned' => false
-            ));
-        
-        foreach($files as $file)
-        {
-            $file->setTempId($newTempId);
-            $manager->persist($file);
-        }
-        $manager->flush();
-        
-        return new Response($newTempId, 200);
-    }
-
 }
