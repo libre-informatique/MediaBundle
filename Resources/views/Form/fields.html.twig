@@ -1,6 +1,5 @@
 
 {% block librinfo_dropzone_widget %}
-    {% dump %}
         {% for file in value%}
             <input type="hidden" name="old_files[]" value="{{ file.id }}"/>
         {% endfor %}
