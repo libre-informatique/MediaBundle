@@ -290,7 +290,30 @@ class CRUDController extends BaseCRUDController
         $className = $rc->getShortName();
         
         $repo = $this->manager->getRepository('LibrinfoMediaBundle:File');
+        
+        if( $remove = $request->get('remove_files') )
+        foreach( $remove as $key => $id )
+        {
+            $file = $repo->find($id);
 
+            if( $file )
+            {                
+                if( method_exists($object, 'removeLibrinfoFile') )
+                {
+                    $object->removeLibrinfoFile($file);
+                    $this->manager->remove($file);
+                }
+                else if( method_exists($object, 'setLibrinfoFile') )
+                {
+                    $object->setLibrinfoFile();
+                    $this->manager->remove($file);
+                }
+                else     
+                    throw new \Exception('You must define '. $className . '::removeLibrinfoFile() method or ' . $className . '::setFile() in case of a one to one');
+              
+            }
+        }
+        
         if( $ids = $request->get('add_files') )
         foreach( $ids as $key => $id )
         {
@@ -303,36 +326,13 @@ class CRUDController extends BaseCRUDController
                     $object->addLibrinfoFile($file);
                     $file->setOwned(true);
                 }
-                else if( method_exists($file, 'setLibrinfoFile') )
+                else if( method_exists($object, 'setLibrinfoFile') )
                 {
                     $object->setLibrinfoFile($file);
                     $file->setOwned(true);
                 }
                 else     
-                    throw new \Exception('You must define '. $className . '::addLibrinfoFile method or ' . $className . '::setFile() in case of a one to one');
-            }
-        }
-        
-        if( $remove = $request->get('remove_files') )
-        foreach( $remove as $key => $id )
-        {
-            $file = $repo->find($id);
-
-            if( $file )
-            {                
-                if( method_exists($object, 'removeLibrinfoFile') )
-                {
-                    $object->removeLibrinfoFile($file);
-                    $file->setOwned(false);
-                }
-                else if( method_exists($file, 'setLibrinfoFile') )
-                {
-                    $object->setLibrinfoFile($file);
-                    $file->setOwned(false);
-                }
-                else     
-                    throw new \Exception('You must define '. $className . '::removeLibrinfoFile method or ' . $className . '::setFile() in case of a one to one');
-              
+                    throw new \Exception('You must define '. $className . '::addLibrinfoFile() method or ' . $className . '::setLibrinfoFile() in case of a one to one');
             }
         }
     }
