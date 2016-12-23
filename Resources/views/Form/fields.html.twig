@@ -4,7 +4,7 @@
         {% for file in value%}
             <input type="hidden" name="load_files[]" value="{{ file.id }}"/>
         {% endfor %}
-    {% else %}
+    {% elseif value is not null %}
         <input type="hidden" name="load_files[]" value="{{ value.id }}"/>
     {% endif %}
     {% spaceless %}
@@ -17,10 +17,4 @@
             </button>
         </div>
     {% endspaceless %}
-    {% block stylesheets %}
-        <link href="{{ asset('bundles/librinfomedia/css/dropzone.css') }}" type="text/css" rel="stylesheet"/>
-    {% endblock %}
-    {% block scripts %}
-        <script type="text/javascript" src="{{ asset('bundles/librinfomedia/js/dropzone.js') }}"></script>
-    {% endblock %}
 {% endblock %}

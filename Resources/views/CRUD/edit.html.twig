@@ -5,7 +5,6 @@
     {{ parent() }}
     {{ block('dropzone_messages') }}
     {{ block('dropzone_template') }}
-    
 {% endblock %}
 
 {% block dropzone_messages %}
@@ -27,12 +26,14 @@
     {% include 'LibrinfoMediaBundle:dropzone:dropzone_template.mustache.twig' %}
 {% endblock %}
 
-{#{% block temp_id %}
-    <input type="hidden" value="EEEEEEEEEE" id="temp_id" name="temp_id">
-{% endblock %}#}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/librinfomedia/css/dropzone.css') }}" type="text/css" rel="stylesheet"/>
+{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/librinfomedia/js/dropzone.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/librinfomedia/js/vendor/mustache.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/librinfomedia/js/upload.js') }}"></script>
 {% endblock %}
