@@ -1,8 +1,12 @@
 
 {% block librinfo_dropzone_widget %}
+    {% if value is iterable %}
         {% for file in value%}
-            <input type="hidden" name="old_files[]" value="{{ file.id }}"/>
+            <input type="hidden" name="load_files[]" value="{{ file.id }}"/>
         {% endfor %}
+    {% else %}
+        <input type="hidden" name="load_files[]" value="{{ value.id }}"/>
+    {% endif %}
     {% spaceless %}
         <div class="dropzone add_files">
         </div>

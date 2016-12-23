@@ -57,4 +57,19 @@ trait HasImages
         $this->images = $images;
         return $this;
     }
+    
+    public function addLibrinfoFile(File $file)
+    {
+        $this->addImage($file);
+    }
+    
+    public function removeLibrinfoFile(File $file)
+    {
+        $this->removeImage($file);
+    }
+    
+    public function getLibrinfoFiles()
+    {
+        return $this->getImages();
+    }
 }

@@ -15,8 +15,6 @@ use Blast\CoreBundle\Controller\CRUDController as BaseCRUDController;
 
 /**
  * Class CRUDController.
- *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class CRUDController extends BaseCRUDController
 {    
@@ -46,11 +44,11 @@ class CRUDController extends BaseCRUDController
         if ($class->isAbstract())
         {
             return $this->render(
-                            'SonataAdminBundle:CRUD:select_subclass.html.twig', array(
-                        'base_template' => $this->getBaseTemplate(),
-                        'admin' => $this->admin,
-                        'action' => 'create',
-                            ), null, $request
+                'SonataAdminBundle:CRUD:select_subclass.html.twig', array(
+                    'base_template' => $this->getBaseTemplate(),
+                    'admin'         => $this->admin,
+                    'action'        => 'create',
+                ), null, $request
             );
         }
 
@@ -69,7 +67,7 @@ class CRUDController extends BaseCRUDController
         $form->setData($object);
         $form->handleRequest($request);
         
-        $this->handleFiles($object, $request->get('file_ids'));
+        $this->handleFiles($object);
         
         if ($form->isSubmitted())
         {
@@ -179,7 +177,7 @@ class CRUDController extends BaseCRUDController
         $form->setData($object);
         $form->handleRequest($request);
         
-        $this->handleFiles($object, $request->get('file_ids'));
+        $this->handleFiles($object);
         
         if ($form->isSubmitted())
         {
@@ -267,9 +265,6 @@ class CRUDController extends BaseCRUDController
         $id = $this->getRequest()->get($this->admin->getIdParameter());
         $object = $this->admin->getObject($id);
         $new = clone $object;
-        
-        if( !method_exists($this, 'duplicateFiles') )
-            throw new \Exception('(LibrinfoMediaBundle) You need to implement duplicateFiles($object, $clone) method in your CRUDController in order to use duplicate action on object having files');
             
         $this->duplicateFiles($object, $new);  
         
@@ -287,23 +282,91 @@ class CRUDController extends BaseCRUDController
      * @param Object $object
      * @param Array $ids
      */
-    protected function handleFiles($object, $ids)
+    protected function handleFiles($object)
     {
+        $request = $this->getRequest();
+        
         $rc = new \ReflectionClass($object);
-        $setter = 'set' . $rc->getShortName();
+        $className = $rc->getShortName();
         
         $repo = $this->manager->getRepository('LibrinfoMediaBundle:File');
 
-        if( $ids )
+        if( $ids = $request->get('add_files') )
         foreach( $ids as $key => $id )
         {
             $file = $repo->find($id);
 
             if( $file )
-            {
-                $file->$setter($object);
-                $file->setOwned(true);
+            {   
+                if( method_exists($object, 'addLibrinfoFile') )
+                {
+                    $object->addLibrinfoFile($file);
+                    $file->setOwned(true);
+                }
+                else if( method_exists($file, 'setLibrinfoFile') )
+                {
+                    $object->setLibrinfoFile($file);
+                    $file->setOwned(true);
+                }
+                else     
+                    throw new \Exception('You must define '. $className . '::addLibrinfoFile method or ' . $className . '::setFile() in case of a one to one');
             }
         }
+        
+        if( $remove = $request->get('remove_files') )
+        foreach( $remove as $key => $id )
+        {
+            $file = $repo->find($id);
+
+            if( $file )
+            {                
+                if( method_exists($object, 'removeLibrinfoFile') )
+                {
+                    $object->removeLibrinfoFile($file);
+                    $file->setOwned(false);
+                }
+                else if( method_exists($file, 'setLibrinfoFile') )
+                {
+                    $object->setLibrinfoFile($file);
+                    $file->setOwned(false);
+                }
+                else     
+                    throw new \Exception('You must define '. $className . '::removeLibrinfoFile method or ' . $className . '::setFile() in case of a one to one');
+              
+            }
+        }
+    }
+    
+    protected function duplicateFiles($object, $clone)
+    {
+        $files = [];
+        $manager = $this->getDoctrine()->getManager();
+        
+        if( method_exists($object, 'getLibrinfoFiles') )
+            {
+                $files = $object->getLibrinfoFiles();
+            }
+            else if( method_exists($object, 'getLibrinfoFile') )
+            {
+                $files = [$object->getLibrinfoFile()];
+            }
+            
+        foreach( $files as $file )
+        {
+            $new = clone $file;
+            
+            if( method_exists($clone, 'addLibrinfoFile') )
+            {
+                $clone->addLibrinfoFile($new);
+            }
+            else if( method_exists($new, 'setLibrinfoFile') )
+            {
+                $clone->setLibrinfoFile($new);
+            }
+            
+            $manager->persist($new);
+        }
+        
+        $manager->flush();
     }
 }

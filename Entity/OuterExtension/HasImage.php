@@ -33,5 +33,15 @@ trait HasImage
     {
         return $this->image;
     }
+    
+    public function setLibrinfoFile(File $file)
+    {
+        $this->setImage($file);
+    }
+    
+    public function getLibrinfoFile()
+    {
+        return $this->getImage();
+    }
 
 }

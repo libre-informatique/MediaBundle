@@ -46,7 +46,10 @@ class UploadController extends Controller
         $manager = $this->getDoctrine()->getManager();
         $repo = $this->getDoctrine()->getRepository('LibrinfoMediaBundle:File');
 
-        $file = $repo->find($fileId);
+        $file = $repo->findOneBy([
+            'id'    =>$fileId,
+            'owned' => false
+        ]);
 
         $manager->remove($file);
         $manager->flush();
@@ -65,7 +68,7 @@ class UploadController extends Controller
         $repo = $this->getDoctrine()->getRepository('LibrinfoMediaBundle:File');
         $files = [];
         
-        foreach( $request->get('old_files') as $key => $id )
+        foreach( $request->get('load_files') as $key => $id )
         {
             $file = $repo->find($id);
             

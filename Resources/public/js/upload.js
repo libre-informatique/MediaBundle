@@ -57,7 +57,7 @@ function setupDropzone() {
 
         $(file.previewElement).data('file-id', result);
       
-        insertInput(result);
+        insertInput(result, 'add_files[]');
     });
 
     //Reset progress bar when done uploading
@@ -71,8 +71,9 @@ function setupDropzone() {
         
         var id = $(file.previewElement).data('file-id');
         
-        $('input[name="file_ids[]"][value="' + id + '"]').remove();
-       
+        $('input#' + id).remove();
+        insertInput(id, 'remove_files[]');
+        
         $.get('/librinfo/media/remove/' + id, function (response) {
 
             console.log(response);
@@ -87,23 +88,23 @@ function retrieveFiles(dropzone) {
     
     var oldFiles = [];
     
-    $('input[name="old_files[]"]').each(function(key, input){
+    $('input[name="load_files[]"]').each(function(key, input){
         oldFiles.push($(input).val());
     });
 
     if(oldFiles.length > 0)
     $.post('/librinfo/media/load', 
         {
-            old_files: oldFiles
+            load_files: oldFiles
         }, 
         function (files) {
 
             for (var i = 0; i < files.length; i++) {
 
-                $('input[name="old_files[]"][value="' + files[i].id + '"]').remove();
+                $('input[name="load_files[]"][value="' + files[i].id + '"]').remove();
 
                 if( files[i].owned == false )
-                    insertInput(files[i].id);
+                    insertInput(files[i].id, 'add_files[]');
 
                 dropzone.emit('addedfile', files[i]);
                 dropzone.createThumbnailFromUrl(files[i], generateImgUrl(files[i]));
@@ -113,8 +114,10 @@ function retrieveFiles(dropzone) {
     );
 }
 
-function insertInput(id){
-    $('<input type="hidden" name="file_ids[]" value=""/>')
+function insertInput(id, name){
+    $('<input type="hidden" name="" value="" id=""/>')
+        .attr('id', id)
+        .prop('name', name)
         .val(id)
         .appendTo($('form[role="form"]'));
 }
