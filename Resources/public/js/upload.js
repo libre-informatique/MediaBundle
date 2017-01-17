@@ -1,15 +1,21 @@
-$(document).ready(function () {
+
+var setupDropzones = function() {
     
-    setupDropzone();
-});
+    var dropzones = $('[data-librinfo-dropzone]');
+    
+    if(dropzones.length > 0){
+    
+        Dropzone.autoDiscover = false;
+        
+        $(dropzones).each(setupDropzone);
+    }
+};
 
-//handles attachments upload
-function setupDropzone() {
-
-    Dropzone.autoDiscover = false;
-
+var setupDropzone = function(key, instance){
+    
+    //template for file previews
     var template = Mustache.render($('#dropzone-template').html());
-
+    var data = $(instance).data('librinfoDropzone');
     var options = {
         url: '/librinfo/media/upload',
         paramName: "file",
@@ -25,23 +31,23 @@ function setupDropzone() {
         dictFileTooBig: dropzoneMessages.fileTooBig,
         dictResponseError: dropzoneMessages.responseError,
         dictMaxFilesExceeded: dropzoneMessages.maxFilesExceeded
-
     };
+
     //init dropzone plugin
-    var dropzone = new Dropzone(".dropzone", options);
+    var dropzone = new Dropzone('#' + data.id, options);
 
     //prevent submitting of the form when add files button is clicked
     $('.add_files').click(function (e) {
 
         e.preventDefault();
     });
-    
+
     // check size and start progress bar when a file is added
     dropzone.on("addedfile", function (file) {
-        
+
         if( file.id !== undefined )
             $(file.previewElement).data('file-id', file.id);
-        
+
         //file size validation
         if (file.size > 5 * 1024 * 1024) {
 
@@ -56,8 +62,8 @@ function setupDropzone() {
     dropzone.on("success", function( file, result ) {
 
         $(file.previewElement).data('file-id', result);
-      
-        insertInput(result, 'add_files[]');
+
+        insertInput(result, 'add_files[]', dropzone);
     });
 
     //Reset progress bar when done uploading
@@ -65,30 +71,30 @@ function setupDropzone() {
 
         updateProgressBar(0);
     });
-    
+
     //Removal of already uploaded files
     dropzone.on("removedfile", function (file) {
-        
+
         var id = $(file.previewElement).data('file-id');
-        
+
         $('input#' + id).remove();
-        insertInput(id, 'remove_files[]');
-        
+        insertInput(id, 'remove_files[]', dropzone);
+
         $.get('/librinfo/media/remove/' + id, function (response) {
 
             console.log(response);
         });
     });
-    
-    retrieveFiles(dropzone);
-}
+
+    retrieveFiles(dropzone, data.id);
+};
 
 // Retrieval of already uploaded files
-function retrieveFiles(dropzone) {
+var retrieveFiles = function(dropzone, dropzoneId) {
     
     var oldFiles = [];
     
-    $('input[name="load_files[]"]').each(function(key, input){
+    $('input[name="load_files[]"][data-dropzone-id="' + dropzoneId + '"]').each(function(key, input){
         oldFiles.push($(input).val());
     });
 
@@ -104,7 +110,7 @@ function retrieveFiles(dropzone) {
                 $('input[name="load_files[]"][value="' + files[i].id + '"]').remove();
 
                 if( files[i].owned == false )
-                    insertInput(files[i].id, 'add_files[]');
+                    insertInput(files[i].id, 'add_files[]', dropzone, dropzoneId);
 
                 dropzone.emit('addedfile', files[i]);
                 dropzone.createThumbnailFromUrl(files[i], generateImgUrl(files[i]));
@@ -112,17 +118,19 @@ function retrieveFiles(dropzone) {
             }
         }
     );
-}
+};
 
-function insertInput(id, name){
-    $('<input type="hidden" name="" value="" id=""/>')
+var insertInput = function(id, name, dropzone, dropzoneId){
+    
+    $('<input type="hidden"/>')
         .attr('id', id)
         .prop('name', name)
+        .data('dropzone-id', dropzoneId)
         .val(id)
-        .appendTo($('form[role="form"]'));
-}
+        .appendTo($(dropzone.element).closest('form'));
+};
 
-function updateProgressBar(e) {
+var updateProgressBar = function(e) {
 
     if (e === 1) {
         $('.progress').addClass("progress-striped");
@@ -133,9 +141,12 @@ function updateProgressBar(e) {
         $('.progress-bar').addClass("progress-bar-success");
         $('.progress').removeClass("progress-striped");
     }
-}
+};
 
-function generateImgUrl(file){
+var generateImgUrl = function(file){
     
    return 'data:' + file.mimeType + ';base64,' + file.file;
-}
+};
+
+$(document).ready(setupDropzones);
+$(document).on('sonata-admin-setup-list-modal sonata-admin-append-form-element', setupDropzones);

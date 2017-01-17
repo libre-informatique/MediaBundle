@@ -1,14 +1,19 @@
 
 {% block librinfo_dropzone_widget %}
+    {% dump %}
+    {% set dropzoneId = id|split('_')[0] ~ 'drop' %}
+    {% dump %}
     {% if value is iterable %}
         {% for file in value%}
-            <input type="hidden" name="load_files[]" value="{{ file.id }}"/>
+            <input type="hidden" name="load_files[]" value="{{ file.id }}" data-dropzone-id="{{ dropzoneId}}"/>
         {% endfor %}
     {% elseif value is not null %}
-        <input type="hidden" name="load_files[]" value="{{ value.id }}"/>
+        <input type="hidden" name="load_files[]" value="{{ value.id }}" data-dropzone-id="{{ dropzoneId }}"/>
     {% endif %}
     {% spaceless %}
-        <div class="dropzone add_files">
+        <div id="{{ dropzoneId }}" class="dropzone add_files" data-test="abc" data-librinfo-dropzone='{{ {
+            id:  dropzoneId 
+        }|json_encode()|raw }}'>
         </div>
         <div class="dropzone-btn">
             <button class="btn btn-success btn-sm sonata-ba-action add_files">
