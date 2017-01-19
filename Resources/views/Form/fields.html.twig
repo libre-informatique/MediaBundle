@@ -11,7 +11,7 @@
         <input type="hidden" name="load_files[]" value="{{ value.id }}" data-dropzone-id="{{ dropzoneId }}"/>
     {% endif %}
     {% spaceless %}
-        <div id="{{ dropzoneId }}" class="dropzone add_files" data-test="abc" data-librinfo-dropzone='{{ {
+        <div id="{{ dropzoneId }}" class="dropzone add_files" data-librinfo-dropzone='{{ {
             id:  dropzoneId 
         }|json_encode()|raw }}'>
         </div>
