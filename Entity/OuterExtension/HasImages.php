@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\Collection;
 use Librinfo\MediaBundle\Entity\File;
 
 trait HasImages
-{   
+{
     /**
      * @var Collection
      */
@@ -17,7 +17,7 @@ trait HasImages
      *
      * @param object $image
      *
-     * @return $this
+     * @return self
      */
     public function addImage(File $image)
     {
@@ -46,28 +46,28 @@ trait HasImages
     {
         return $this->images;
     }
-    
+
     /**
      * Set images
      *
-     * @return $this
+     * @return self
      */
     public function setImages(array $images)
     {
         $this->images = $images;
         return $this;
     }
-    
+
     public function addLibrinfoFile(File $file)
     {
         $this->addImage($file);
     }
-    
+
     public function removeLibrinfoFile(File $file)
     {
         $this->removeImage($file);
     }
-    
+
     public function getLibrinfoFiles()
     {
         return $this->getImages();
