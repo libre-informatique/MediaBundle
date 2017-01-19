@@ -16,7 +16,7 @@ trait HasImage
      *
      * @param File $image
      *
-     * @return this
+     * @return self
      */
     public function setImage(File $image)
     {
@@ -33,12 +33,12 @@ trait HasImage
     {
         return $this->image;
     }
-    
+
     public function setLibrinfoFile(File $file)
     {
         $this->setImage($file);
     }
-    
+
     public function getLibrinfoFile()
     {
         return $this->getImage();
