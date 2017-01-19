@@ -1,8 +1,8 @@
 
 {% block librinfo_dropzone_widget %}
-    {% dump %}
+    
     {% set dropzoneId = id|split('_')[0] ~ 'drop' %}
-    {% dump %}
+
     {% if value is iterable %}
         {% for file in value%}
             <input type="hidden" name="load_files[]" value="{{ file.id }}" data-dropzone-id="{{ dropzoneId}}"/>
