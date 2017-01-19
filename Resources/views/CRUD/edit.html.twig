@@ -9,17 +9,13 @@
 
 {% block dropzone_messages %}
     {{ parent() }}
-    <script type="text/javascript">
-    var dropzoneMessages = {
-        'defaultMessage': '{{ 'dropzone.defaultMessage'|trans() }}',
-        'fallbackMessage': '{{ 'dropzpone.fallbackMessage'|trans() }}',
-        'fallbackText': '{{ 'dropzone.fallbackText'|trans() }}',
-        'invalidFileType': '{{ 'dropzone.invalidFileType'|trans() }}',
-        'fileTooBig': '{{ 'dropzone.fileTooBig'|trans() }}',
-        'responseError': '{{ 'dropzone.responseError'|trans() }}',
-        'maxFilesExceeded': '{{ 'dropzone.maxFilesExceeded'|trans() }}'
-    };
-    </script>
+    <div class="js-i18n" data-source="dropzone.defaultMessage" data-target="{{ 'dropzone.defaultMessage'|trans() }}"></div>
+    <div class="js-i18n" data-source="dropzpone.fallbackMessage" data-target="{{ 'dropzpone.fallbackMessage'|trans() }}"></div>
+    <div class="js-i18n" data-source="dropzone.fallbackText" data-target="{{ 'dropzone.fallbackText'|trans() }}"></div>
+    <div class="js-i18n" data-source="dropzone.invalidFileType" data-target="{{ 'dropzone.invalidFileType'|trans() }}"></div>
+    <div class="js-i18n" data-source="dropzone.fileTooBig" data-target="{{ 'dropzone.fileTooBig'|trans() }}"></div>
+    <div class="js-i18n" data-source="dropzone.responseError" data-target="{{ 'dropzone.responseError'|trans() }}"></div>
+    <div class="js-i18n" data-source="dropzone.maxFilesExceeded" data-target="{{ 'dropzone.maxFilesExceeded'|trans() }}"></div>
 {% endblock %}
 
 {% block dropzone_template %}

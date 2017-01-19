@@ -24,13 +24,13 @@ var setupDropzone = function(key, instance){
         maxFileSize: 5,
         previewTemplate: template,
         clickable: ".add_files",
-        dictDefaultMessage: dropzoneMessages.defaultMessage,
-        dictFallbackMessage: dropzoneMessages.fallbackMessage,
-        dictFallbackText: dropzoneMessages.fallbackText,
-        dictInvalidFileType: dropzoneMessages.invalidFileType,
-        dictFileTooBig: dropzoneMessages.fileTooBig,
-        dictResponseError: dropzoneMessages.responseError,
-        dictMaxFilesExceeded: dropzoneMessages.maxFilesExceeded
+        dictDefaultMessage:  $('[data-source="dropzone.defaultMessage"]').data('target'),
+        dictFallbackMessage: $('[data-source="dropzone.fallbackMessage"]').data('target'),
+        dictFallbackText: $('[data-source="dropzone.fallbackText"]').data('target'),
+        dictInvalidFileType: $('[data-source="dropzone.invalidFileType"]').data('target'),
+        dictFileTooBig: $('[data-source="dropzone.fileTooBig"]').data('target'),
+        dictResponseError: $('[data-source="dropzone.responseError"]').data('target'),
+        dictMaxFilesExceeded: $('[data-source="dropzone.maxFilesExceeded"]').data('target')
     };
 
     //init dropzone plugin
