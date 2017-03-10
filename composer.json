@@ -3,8 +3,8 @@
     "type": "symfony-bundle",
     "description": "Media Bundle for Symfony",
     "require": {
-        "symfony/symfony": "2.8.*",
-        "blast-project/core-bundle": "dev-master"
+        "symfony/symfony": "3.2.*",
+        "blast-project/core-bundle": "dev-sf3.2"
     },
     "license":  "GPL-3.0",
     "keywords": ["e-venement", "libio", "sonata", "symfony", "media"],
