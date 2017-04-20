@@ -6,8 +6,14 @@
         "symfony/symfony": "3.2.*",
         "blast-project/core-bundle": "dev-master"
     },
-    "license":  "GPL-3.0",
-    "keywords": ["e-venement", "libio", "sonata", "symfony", "media"],
+    "license": "GPL-3.0",
+    "keywords": [
+        "e-venement",
+        "libio",
+        "sonata",
+        "symfony",
+        "media"
+    ],
     "homepage": "https://github.com/libre-informatique/SymfonyLibrinfoMediaBundle",
     "authors": [
         {
@@ -20,6 +26,9 @@
         }
     ],
     "autoload": {
-        "psr-4": { "Librinfo\\MediaBundle\\": "" }
+        "psr-4": {
+            "Librinfo\\MediaBundle\\": "src/",
+            "Librinfo\\MediaBundle\\Tests\\": "tests/"
+        }
     }
 }
