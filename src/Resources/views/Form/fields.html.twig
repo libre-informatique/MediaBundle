@@ -12,7 +12,8 @@
     {% endif %}
     {% spaceless %}
         <div id="{{ dropzoneId }}" class="dropzone add_files" data-librinfo-dropzone='{{ {
-            id:  dropzoneId 
+            id:  dropzoneId,
+            route: path('librinfo_media.upload')
         }|json_encode()|raw }}'>
         </div>
         <div class="dropzone-btn">

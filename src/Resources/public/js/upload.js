@@ -17,7 +17,7 @@ var setupDropzone = function(key, instance){
     var template = Mustache.render($('#dropzone-template').html());
     var data = $(instance).data('librinfoDropzone');
     var options = {
-        url: '/librinfo/media/upload',
+        url: data.route,
         paramName: "file",
         uploadMultiple: false,
         maxFiles: 5,
