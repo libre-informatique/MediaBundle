@@ -3,8 +3,12 @@
     "type": "symfony-bundle",
     "description": "Media Bundle for Symfony",
     "require": {
+	"php": ">=5.6",
         "symfony/symfony": "3.2.*",
-        "blast-project/core-bundle": "dev-master"
+        "blast-project/core-bundle": "^0.4"
+    },
+    "require-dev": {
+	"symfony/phpunit-bridge": "3.2.*"
     },
     "license": "GPL-3.0",
     "keywords": [
