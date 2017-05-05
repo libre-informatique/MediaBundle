@@ -9,3 +9,18 @@ services:
         class: Librinfo\MediaBundle\Form\Type\DropzoneType
         tags:
             - { name: form.type, alias: librinfo_dropzone }
+            
+    imagine.data.loader.db_loader:
+        class: Librinfo\MediaBundle\Imagine\Loader\DbLoader
+        arguments:
+            - "@imagine.data.loader.resolver.default"
+            - "@liip_imagine"
+        calls:
+            - [setEm, ['@doctrine.orm.entity_manager'] ]
+        tags:
+            - { name: "liip_imagine.binary.loader", loader: db_loader }
+            
+    imagine.data.loader.resolver.default:
+        class: Librinfo\MediaBundle\Imagine\PathResolver\DefaultResolver
+        calls:
+            - [setEm, ['@doctrine.orm.entity_manager'] ]
