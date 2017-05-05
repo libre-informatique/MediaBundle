@@ -1,30 +1,38 @@
+var dropzoneUrls = {
+    upload: null,
+    load: null,
+    remove: null
+};
 
-var setupDropzones = function() {
-    
+var setupDropzones = function () {
+
     var dropzones = $('[data-librinfo-dropzone]');
-    
-    if(dropzones.length > 0){
-    
+
+    if (dropzones.length > 0) {
+
         Dropzone.autoDiscover = false;
-        
+
         $(dropzones).each(setupDropzone);
     }
 };
 
-var setupDropzone = function(key, instance){
-    
+var setupDropzone = function (key, instance) {
+
     //template for file previews
     var template = Mustache.render($('#dropzone-template').html());
     var data = $(instance).data('librinfoDropzone');
+
+    dropzoneUrls = data.routes;
+
     var options = {
-        url: data.route,
+        url: dropzoneUrls.upload,
         paramName: "file",
         uploadMultiple: false,
         maxFiles: 5,
         maxFileSize: 5,
         previewTemplate: template,
         clickable: ".add_files",
-        dictDefaultMessage:  $('[data-source="dropzone.defaultMessage"]').data('target'),
+        dictDefaultMessage: $('[data-source="dropzone.defaultMessage"]').data('target'),
         dictFallbackMessage: $('[data-source="dropzone.fallbackMessage"]').data('target'),
         dictFallbackText: $('[data-source="dropzone.fallbackText"]').data('target'),
         dictInvalidFileType: $('[data-source="dropzone.invalidFileType"]').data('target'),
@@ -45,7 +53,7 @@ var setupDropzone = function(key, instance){
     // check size and start progress bar when a file is added
     dropzone.on("addedfile", function (file) {
 
-        if( file.id !== undefined )
+        if (file.id !== undefined)
             $(file.previewElement).data('file-id', file.id);
 
         //file size validation
@@ -59,7 +67,7 @@ var setupDropzone = function(key, instance){
     });
 
     //Last uploaded file id is appended to the form so that it can be linked to owning entity on backend side
-    dropzone.on("success", function( file, result ) {
+    dropzone.on("success", function (file, result) {
 
         $(file.previewElement).data('file-id', result);
 
@@ -80,7 +88,7 @@ var setupDropzone = function(key, instance){
         $('input#' + id).remove();
         insertInput(id, 'remove_files[]', dropzone);
 
-        $.get('/librinfo/media/remove/' + id, function (response) {
+        $.get(dropzoneUrls.remove + id, function (response) {
 
             console.log(response);
         });
@@ -90,47 +98,51 @@ var setupDropzone = function(key, instance){
 };
 
 // Retrieval of already uploaded files
-var retrieveFiles = function(dropzone, dropzoneId) {
-    
+var retrieveFiles = function (dropzone, dropzoneId) {
+
+
+
     var oldFiles = [];
-    
-    $('input[name="load_files[]"][data-dropzone-id="' + dropzoneId + '"]').each(function(key, input){
+
+    $('input[name="load_files[]"][data-dropzone-id="' + dropzoneId + '"]').each(function (key, input) {
         oldFiles.push($(input).val());
     });
 
-    if(oldFiles.length > 0)
-    $.post('/librinfo/media/load', 
-        {
-            load_files: oldFiles
-        }, 
-        function (files) {
+    console.info(dropzone, dropzoneId, oldFiles);
 
-            for (var i = 0; i < files.length; i++) {
+    if (oldFiles.length > 0)
+        $.post(dropzoneUrls.load,
+                {
+                    load_files: oldFiles
+                },
+                function (files) {
 
-                $('input[name="load_files[]"][value="' + files[i].id + '"]').remove();
+                    for (var i = 0; i < files.length; i++) {
 
-                if( files[i].owned == false )
-                    insertInput(files[i].id, 'add_files[]', dropzone, dropzoneId);
+                        $('input[name="load_files[]"][value="' + files[i].id + '"]').remove();
 
-                dropzone.emit('addedfile', files[i]);
-                dropzone.createThumbnailFromUrl(files[i], generateImgUrl(files[i]));
-                dropzone.emit('complete', files[i]);
-            }
-        }
-    );
+                        if (files[i].owned == false)
+                            insertInput(files[i].id, 'add_files[]', dropzone, dropzoneId);
+
+                        dropzone.emit('addedfile', files[i]);
+                        dropzone.createThumbnailFromUrl(files[i], generateImgUrl(files[i]));
+                        dropzone.emit('complete', files[i]);
+                    }
+                }
+        );
 };
 
-var insertInput = function(id, name, dropzone, dropzoneId){
-    
+var insertInput = function (id, name, dropzone, dropzoneId) {
+
     $('<input type="hidden"/>')
-        .attr('id', id)
-        .prop('name', name)
-        .data('dropzone-id', dropzoneId)
-        .val(id)
-        .appendTo($(dropzone.element).closest('form'));
+            .attr('id', id)
+            .prop('name', name)
+            .data('dropzone-id', dropzoneId)
+            .val(id)
+            .appendTo($(dropzone.element).closest('form'));
 };
 
-var updateProgressBar = function(e) {
+var updateProgressBar = function (e) {
 
     if (e === 1) {
         $('.progress').addClass("progress-striped");
@@ -143,9 +155,9 @@ var updateProgressBar = function(e) {
     }
 };
 
-var generateImgUrl = function(file){
-    
-   return 'data:' + file.mimeType + ';base64,' + file.file;
+var generateImgUrl = function (file) {
+
+    return 'data:' + file.mimeType + ';base64,' + file.file;
 };
 
 $(document).ready(setupDropzones);

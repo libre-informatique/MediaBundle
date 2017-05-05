@@ -5,7 +5,7 @@ librinfo_media.upload:
 # remove uploaded files
 librinfo_media.remove:
     path:     librinfo/media/remove/{fileId}
-    defaults: { _controller: LibrinfoMediaBundle:Upload:remove }
+    defaults: { _controller: LibrinfoMediaBundle:Upload:remove, fileId: null }
     
 # load uploaded files
 librinfo_media.load:

@@ -41,8 +41,12 @@ class UploadController extends Controller
      * @param String $fileId
      * @return Response
      */
-    public function removeAction($fileId)
+    public function removeAction($fileId = null)
     {
+        if(!$fileId) {
+            return new Response("Please provide a file id", 500);
+        }         
+   
         $manager = $this->getDoctrine()->getManager();
         $repo = $this->getDoctrine()->getRepository('LibrinfoMediaBundle:File');
 

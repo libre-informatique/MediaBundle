@@ -13,7 +13,11 @@
     {% spaceless %}
         <div id="{{ dropzoneId }}" class="dropzone add_files" data-librinfo-dropzone='{{ {
             id:  dropzoneId,
-            route: path('librinfo_media.upload')
+            routes: {
+                upload: path('librinfo_media.upload'),
+                load:   path('librinfo_media.load'),
+                remove: path('librinfo_media.remove'),
+            }
         }|json_encode()|raw }}'>
         </div>
         <div class="dropzone-btn">
