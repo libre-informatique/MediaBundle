@@ -7,9 +7,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Librinfo\MediaBundle\Entity\File;
+use Symfony\Component\EventDispatcher\GenericEvent;
+use Librinfo\MediaBundle\Events\UploadControllerEventListener;
 
 class UploadController extends Controller
 {
+
     /**
      * Upload
      * 
@@ -43,15 +46,15 @@ class UploadController extends Controller
      */
     public function removeAction($fileId = null)
     {
-        if(!$fileId) {
+        if (!$fileId) {
             return new Response("Please provide a file id", 500);
-        }         
-   
+        }
+
         $manager = $this->getDoctrine()->getManager();
         $repo = $this->getDoctrine()->getRepository('LibrinfoMediaBundle:File');
 
         $file = $repo->findOneBy([
-            'id'    =>$fileId,
+            'id'    => $fileId,
             'owned' => false
         ]);
 
@@ -71,18 +74,47 @@ class UploadController extends Controller
     {
         $repo = $this->getDoctrine()->getRepository('LibrinfoMediaBundle:File');
         $files = [];
-        
-        foreach( $request->get('load_files') as $key => $id )
-        {
-            $file = $repo->find($id);
-            
-            if ( $file )
-            {
+
+        foreach ($request->get('load_files') as $key => $id) {
+            $file = null;
+
+            $dispatcher = $this->get('event_dispatcher');
+
+            $event = new GenericEvent(
+                [
+                'request' => $request,
+                'context' => ['key' => $key, 'id' => $id, 'file' => $file]
+                ], [
+                'file'  => $file,
+                'files' => $files
+                ]
+            );
+            $dispatcher->dispatch(UploadControllerEventListener::PRE_GET_ENTITY, $event);
+
+            $file = $event->getArgument('file');
+
+            if ($file) {
                 $file->setFile($file->getBase64File());
                 $files[] = $file;
             }
+
+            $event = new GenericEvent(
+                [
+                'request' => $request,
+                'context' => [
+                    'key'  => $key,
+                    'id'   => $id,
+                    'file' => $file
+                ]
+                ], [
+                'file'  => $file,
+                'files' => $files
+                ]
+            );
+            $dispatcher->dispatch(UploadControllerEventListener::POST_GET_ENTITY, $event);
         }
-            
+
         return new JsonResponse($files, 200);
     }
+
 }

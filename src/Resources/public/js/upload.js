@@ -1,7 +1,25 @@
-var dropzoneUrls = {
+var dzUrls = {
     upload: null,
     load: null,
     remove: null
+};
+
+var dzOptions = {
+    url: null,
+    paramName: null,
+    uploadMultiple: false,
+    maxFiles: 5,
+    maxFileSize: 5,
+    previewTemplate: null,
+    clickable: null,
+    context: null,
+    dictDefaultMessage: null,
+    dictFallbackMessage: null,
+    dictFallbackText: null,
+    dictInvalidFileType: null,
+    dictFileTooBig: null,
+    dictResponseError: null,
+    dictMaxFilesExceeded: null
 };
 
 var setupDropzones = function () {
@@ -22,10 +40,9 @@ var setupDropzone = function (key, instance) {
     var template = Mustache.render($('#dropzone-template').html());
     var data = $(instance).data('librinfoDropzone');
 
-    dropzoneUrls = data.routes;
-
-    var options = {
-        url: dropzoneUrls.upload,
+    dzUrls = data.routes;
+    dzOptions = {
+        url: dzUrls.upload,
         paramName: "file",
         uploadMultiple: false,
         maxFiles: 5,
@@ -38,11 +55,14 @@ var setupDropzone = function (key, instance) {
         dictInvalidFileType: $('[data-source="dropzone.invalidFileType"]').data('target'),
         dictFileTooBig: $('[data-source="dropzone.fileTooBig"]').data('target'),
         dictResponseError: $('[data-source="dropzone.responseError"]').data('target'),
-        dictMaxFilesExceeded: $('[data-source="dropzone.maxFilesExceeded"]').data('target')
+        dictMaxFilesExceeded: $('[data-source="dropzone.maxFilesExceeded"]').data('target'),
+        context: data.context
     };
 
+    console.info(dzOptions);
+
     //init dropzone plugin
-    var dropzone = new Dropzone('#' + data.id, options);
+    var dropzone = new Dropzone('#' + data.id, dzOptions);
 
     //prevent submitting of the form when add files button is clicked
     $('.add_files').click(function (e) {
@@ -88,7 +108,7 @@ var setupDropzone = function (key, instance) {
         $('input#' + id).remove();
         insertInput(id, 'remove_files[]', dropzone);
 
-        $.get(dropzoneUrls.remove + id, function (response) {
+        $.get(dzUrls.remove + id, function (response) {
 
             console.log(response);
         });
@@ -111,9 +131,10 @@ var retrieveFiles = function (dropzone, dropzoneId) {
     console.info(dropzone, dropzoneId, oldFiles);
 
     if (oldFiles.length > 0)
-        $.post(dropzoneUrls.load,
+        $.post(dzUrls.load,
                 {
-                    load_files: oldFiles
+                    load_files: oldFiles,
+                    context: dzOptions.context
                 },
                 function (files) {
 

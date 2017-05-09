@@ -1253,6 +1253,7 @@
             }
             method = resolveOption(this.options.method, files);
             url = resolveOption(this.options.url, files);
+            console.info(this.options,url);
             xhr.open(method, url, true);
             xhr.withCredentials = !!this.options.withCredentials;
             response = null;
