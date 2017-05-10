@@ -12,28 +12,33 @@ use Symfony\Component\Form\FormInterface;
  */
 class DropzoneType extends BaseAbstractType
 {
+
     public function getParent()
     {
         return 'form';
     }
-    
+
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault("mediaContext", "default");
+        $resolver->setDefault('mediaContext', 'default');
+        $resolver->setDefault('dropzoneTemplate', 'LibrinfoMediaBundle:dropzone:dropzone_template.mustache.twig');
+
         $resolver->setAllowedTypes('mediaContext', 'string');
+        $resolver->setAllowedTypes('dropzoneTemplate', 'string');
     }
 
     public function getBlockPrefix()
     {
         return 'librinfo_dropzone';
     }
-    
+
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         parent::buildView($view, $form, $options);
 
         $view->vars = array_merge($view->vars, array(
-            'mediaContext' => $options['mediaContext']
+            'mediaContext'     => $options['mediaContext'],
+            'dropzoneTemplate' => $options['dropzoneTemplate']
         ));
     }
 

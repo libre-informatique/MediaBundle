@@ -4,7 +4,7 @@
 {% block form %}
     {{ parent() }}
     {{ block('dropzone_messages') }}
-    {{ block('dropzone_template') }}
+{#    {{ block('dropzone_template') }}#}
 {% endblock %}
 
 {% block dropzone_messages %}
@@ -18,9 +18,9 @@
     <div class="js-i18n" data-source="dropzone.maxFilesExceeded" data-target="{{ 'dropzone.maxFilesExceeded'|trans() }}"></div>
 {% endblock %}
 
-{% block dropzone_template %}
+{#{% block dropzone_template %}
     {% include 'LibrinfoMediaBundle:dropzone:dropzone_template.mustache.twig' %}
-{% endblock %}
+{% endblock %}#}
 
 {% block stylesheets %}
     {{ parent() }}
