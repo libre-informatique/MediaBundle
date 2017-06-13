@@ -1,5 +1,15 @@
 # Change Log
 
+## [0.4.3](https://github.com/libre-informatique/MediaBundle/tree/0.4.3) (2017-06-13)
+[Full Changelog](https://github.com/libre-informatique/MediaBundle/compare/0.4.2...0.4.3)
+
+**Merged pull requests:**
+
+- DevKit updates for MediaBundle [\#9](https://github.com/libre-informatique/MediaBundle/pull/9) ([BlastCI](https://github.com/BlastCI))
+- DevKit updates for MediaBundle [\#8](https://github.com/libre-informatique/MediaBundle/pull/8) ([BlastCI](https://github.com/BlastCI))
+- DevKit updates for MediaBundle [\#7](https://github.com/libre-informatique/MediaBundle/pull/7) ([BlastCI](https://github.com/BlastCI))
+- DevKit updates for MediaBundle [\#5](https://github.com/libre-informatique/MediaBundle/pull/5) ([BlastCI](https://github.com/BlastCI))
+
 ## [0.4.2](https://github.com/libre-informatique/MediaBundle/tree/0.4.2) (2017-05-04)
 [Full Changelog](https://github.com/libre-informatique/MediaBundle/compare/0.1...0.4.2)
 
