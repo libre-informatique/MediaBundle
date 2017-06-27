@@ -59,14 +59,11 @@ var setupDropzone = function (key, instance) {
         context: data.context
     };
 
-    console.info(dzOptions);
-
     //init dropzone plugin
     var dropzone = new Dropzone('#' + data.id, dzOptions);
 
     //prevent submitting of the form when add files button is clicked
     $('.add_files').click(function (e) {
-
         e.preventDefault();
     });
 
