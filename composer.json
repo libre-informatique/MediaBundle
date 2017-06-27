@@ -6,8 +6,7 @@
         "php": ">=5.6",
         "symfony/symfony": ">=3.2",
         "symfony/event-dispatcher": ">=3.2",
-        "liip/imagine-bundle": "1.8.0",
-        "blast-project/core-bundle": ">=0.4"
+        "blast-project/core-bundle": "dev-wip-lisem"
     },
     "require-dev": {
 	"symfony/phpunit-bridge": ">=3.2"
@@ -33,7 +32,8 @@
     ],
     "extra": {
         "branch-alias": {
-            "dev-master": "0.4.x-dev"
+            "dev-master": "0.4.x-dev",
+            "dev-wip-lisem": "0.4.x-dev"
         }
     },
     "autoload": {
