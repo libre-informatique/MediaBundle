@@ -54,13 +54,20 @@ class UploadController extends Controller
         $repo = $this->getDoctrine()->getRepository('LibrinfoMediaBundle:File');
 
         $file = $repo->findOneBy([
-            'id'    => $fileId
+            'id'    => $fileId,
+            'owned' => false
         ]);
 
-        $manager->remove($file);
-        $manager->flush();
+        if($file !== null) {
+            $manager->remove($file);
+            $manager->flush();
 
-        return new Response($file->getName() . " removed successfully", 200);
+            return new Response($file->getName() . " removed successfully", 200);
+        } else {
+            return new Response($file->getName() . " cannot be removed", 401);
+        }
+
+
     }
 
     /**
