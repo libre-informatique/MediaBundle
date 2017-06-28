@@ -22,7 +22,7 @@ var dzOptions = {
     dictMaxFilesExceeded: null
 };
 
-var setupDropzones = function () {
+var setupDropzones = function() {
 
     var dropzones = $('[data-librinfo-dropzone]');
 
@@ -34,7 +34,7 @@ var setupDropzones = function () {
     }
 };
 
-var setupDropzone = function (key, instance) {
+var setupDropzone = function(key, instance) {
 
     //template for file previews
     var template = Mustache.render($('#dropzone-template').html());
@@ -63,12 +63,12 @@ var setupDropzone = function (key, instance) {
     var dropzone = new Dropzone('#' + data.id, dzOptions);
 
     //prevent submitting of the form when add files button is clicked
-    $('.add_files').click(function (e) {
+    $('.add_files').click(function(e) {
         e.preventDefault();
     });
 
     // check size and start progress bar when a file is added
-    dropzone.on("addedfile", function (file) {
+    dropzone.on("addedfile", function(file) {
 
         if (file.id !== undefined)
             $(file.previewElement).data('file-id', file.id);
@@ -84,7 +84,7 @@ var setupDropzone = function (key, instance) {
     });
 
     //Last uploaded file id is appended to the form so that it can be linked to owning entity on backend side
-    dropzone.on("success", function (file, result) {
+    dropzone.on("success", function(file, result) {
 
         $(file.previewElement).data('file-id', result);
 
@@ -92,21 +92,22 @@ var setupDropzone = function (key, instance) {
     });
 
     //Reset progress bar when done uploading
-    dropzone.on("queuecomplete", function (progress) {
+    dropzone.on("queuecomplete", function(progress) {
 
         updateProgressBar(0);
     });
 
     //Removal of already uploaded files
-    dropzone.on("removedfile", function (file) {
+    dropzone.on("removedfile", function(file) {
 
         var id = $(file.previewElement).data('file-id');
 
         $('input#' + id).remove();
         insertInput(id, 'remove_files[]', dropzone);
 
-        $.get(dzUrls.remove + id, function (response) {
-
+        $.get(dzUrls.remove + id, function(response) {
+            console.log(response);
+        }, function(response) {
             console.log(response);
         });
     });
@@ -115,52 +116,44 @@ var setupDropzone = function (key, instance) {
 };
 
 // Retrieval of already uploaded files
-var retrieveFiles = function (dropzone, dropzoneId) {
-
-
-
+var retrieveFiles = function(dropzone, dropzoneId) {
     var oldFiles = [];
 
-    $('input[name="load_files[]"][data-dropzone-id="' + dropzoneId + '"]').each(function (key, input) {
+    $('input[name="load_files[]"][data-dropzone-id="' + dropzoneId + '"]').each(function(key, input) {
         oldFiles.push($(input).val());
     });
 
-    console.info(dropzone, dropzoneId, oldFiles);
-
     if (oldFiles.length > 0)
-        $.post(dzUrls.load,
-                {
-                    load_files: oldFiles,
-                    context: dzOptions.context
-                },
-                function (files) {
+        $.post(dzUrls.load, {
+            load_files: oldFiles,
+            context: dzOptions.context
+        }, function(files) {
 
-                    for (var i = 0; i < files.length; i++) {
+            for (var i = 0; i < files.length; i++) {
 
-                        $('input[name="load_files[]"][value="' + files[i].id + '"]').remove();
+                $('input[name="load_files[]"][value="' + files[i].id + '"]').remove();
 
-                        if (files[i].owned == false)
-                            insertInput(files[i].id, 'add_files[]', dropzone, dropzoneId);
+                if (files[i].owned == false)
+                    insertInput(files[i].id, 'add_files[]', dropzone, dropzoneId);
 
-                        dropzone.emit('addedfile', files[i]);
-                        dropzone.createThumbnailFromUrl(files[i], generateImgUrl(files[i]));
-                        dropzone.emit('complete', files[i]);
-                    }
-                }
-        );
+                dropzone.emit('addedfile', files[i]);
+                dropzone.createThumbnailFromUrl(files[i], generateImgUrl(files[i]));
+                dropzone.emit('complete', files[i]);
+            }
+        });
 };
 
-var insertInput = function (id, name, dropzone, dropzoneId) {
+var insertInput = function(id, name, dropzone, dropzoneId) {
 
     $('<input type="hidden"/>')
-            .attr('id', id)
-            .prop('name', name)
-            .data('dropzone-id', dropzoneId)
-            .val(id)
-            .appendTo($(dropzone.element).closest('form'));
+        .attr('id', id)
+        .prop('name', name)
+        .data('dropzone-id', dropzoneId)
+        .val(id)
+        .appendTo($(dropzone.element).closest('form'));
 };
 
-var updateProgressBar = function (e) {
+var updateProgressBar = function(e) {
 
     if (e === 1) {
         $('.progress').addClass("progress-striped");
@@ -173,7 +166,7 @@ var updateProgressBar = function (e) {
     }
 };
 
-var generateImgUrl = function (file) {
+var generateImgUrl = function(file) {
 
     return 'data:' + file.mimeType + ';base64,' + file.file;
 };
