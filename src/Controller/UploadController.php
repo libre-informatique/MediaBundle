@@ -15,7 +15,7 @@ class UploadController extends Controller
 
     /**
      * Upload
-     * 
+     *
      * @param Request $request
      * @return Response
      */
@@ -40,7 +40,7 @@ class UploadController extends Controller
 
     /**
      * Removal
-     * 
+     *
      * @param String $fileId
      * @return Response
      */
@@ -54,8 +54,7 @@ class UploadController extends Controller
         $repo = $this->getDoctrine()->getRepository('LibrinfoMediaBundle:File');
 
         $file = $repo->findOneBy([
-            'id'    => $fileId,
-            'owned' => false
+            'id'    => $fileId
         ]);
 
         $manager->remove($file);
@@ -66,7 +65,7 @@ class UploadController extends Controller
 
     /**
      * Retrieves
-     * 
+     *
      * @param Request $request
      * @return Response files converted to json array
      */
