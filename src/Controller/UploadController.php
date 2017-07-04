@@ -15,7 +15,7 @@ class UploadController extends Controller
 
     /**
      * Upload
-     * 
+     *
      * @param Request $request
      * @return Response
      */
@@ -40,7 +40,7 @@ class UploadController extends Controller
 
     /**
      * Removal
-     * 
+     *
      * @param String $fileId
      * @return Response
      */
@@ -58,15 +58,21 @@ class UploadController extends Controller
             'owned' => false
         ]);
 
-        $manager->remove($file);
-        $manager->flush();
+        if($file !== null) {
+            $manager->remove($file);
+            $manager->flush();
 
-        return new Response($file->getName() . " removed successfully", 200);
+            return new Response($file->getName() . " removed successfully", 200);
+        } else {
+            return new Response($file->getName() . " cannot be removed", 401);
+        }
+
+
     }
 
     /**
      * Retrieves
-     * 
+     *
      * @param Request $request
      * @return Response files converted to json array
      */

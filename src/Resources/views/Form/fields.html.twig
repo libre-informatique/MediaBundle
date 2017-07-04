@@ -1,6 +1,6 @@
 
 {% block librinfo_dropzone_widget %}
-    
+
     {% set dropzoneId = id|split('_')[0] ~ 'drop' %}
 
     {% if value is iterable %}
@@ -17,7 +17,7 @@
             routes: {
                 upload: path('librinfo_media.upload'),
                 load:   path('librinfo_media.load'),
-                remove: path('librinfo_media.remove'),
+                remove: path('librinfo_media.remove')~'/',
             }
         }|json_encode()|raw }}'>
         </div>
@@ -28,7 +28,7 @@
             </button>
         </div>
     {% endspaceless %}
-    
+
     {% block dropzone_template %}
         {% include dropzoneTemplate %}
     {% endblock %}
