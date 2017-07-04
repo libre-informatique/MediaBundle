@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of the Blast Project package.
+ *
+ * Copyright (C) 2015-2017 Libre Informatique
+ *
+ * This file is licenced under the GNU LGPL v3.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Librinfo\MediaBundle\Entity\OuterExtension;
 
 use Librinfo\MediaBundle\Entity\File;
@@ -12,7 +22,7 @@ trait HasImage
     private $image;
 
     /**
-     * Set image
+     * Set image.
      *
      * @param File $image
      *
@@ -21,11 +31,12 @@ trait HasImage
     public function setImage(File $image)
     {
         $this->image = $image;
+
         return $this;
     }
 
     /**
-     * Get image
+     * Get image.
      *
      * @return File
      */
@@ -43,5 +54,4 @@ trait HasImage
     {
         return $this->getImage();
     }
-
 }

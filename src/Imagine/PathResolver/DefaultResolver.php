@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of the Blast Project package.
+ *
+ * Copyright (C) 2015-2017 Libre Informatique
+ *
+ * This file is licenced under the GNU LGPL v3.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Librinfo\MediaBundle\Imagine\PathResolver;
 
 use Doctrine\ORM\EntityManager;
@@ -8,14 +18,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DefaultResolver implements PathResolverInterface
 {
-
     /**
      * @var EntityManager
      */
     protected $em;
 
     /**
-     * @var File 
+     * @var File
      */
     protected $cacheFile = null;
 
@@ -25,7 +34,7 @@ class DefaultResolver implements PathResolverInterface
             $repo = $this->em->getRepository('LibrinfoMediaBundle:File');
 
             if (!$this->cacheFile) {
-                /** @var $this->cacheFile File */
+                /* @var $this->cacheFile File */
                 $this->cacheFile = $repo->find($id);
             }
 
@@ -47,15 +56,16 @@ class DefaultResolver implements PathResolverInterface
     }
 
     /**
-     * setEm(EntityManager $em)
-     * 
+     * setEm(EntityManager $em).
+     *
      * @param EntityManager $em
+     *
      * @return $this
      */
     public function setEm(EntityManager $em)
     {
         $this->em = $em;
+
         return $this;
     }
-
 }

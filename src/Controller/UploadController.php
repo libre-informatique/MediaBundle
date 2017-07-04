@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of the Blast Project package.
+ *
+ * Copyright (C) 2015-2017 Libre Informatique
+ *
+ * This file is licenced under the GNU LGPL v3.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Librinfo\MediaBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -12,11 +22,11 @@ use Librinfo\MediaBundle\Events\UploadControllerEventListener;
 
 class UploadController extends Controller
 {
-
     /**
-     * Upload
+     * Upload.
      *
      * @param Request $request
+     *
      * @return Response
      */
     public function uploadAction(Request $request)
@@ -39,41 +49,41 @@ class UploadController extends Controller
     }
 
     /**
-     * Removal
+     * Removal.
      *
-     * @param String $fileId
+     * @param string $fileId
+     *
      * @return Response
      */
     public function removeAction($fileId = null)
     {
         if (!$fileId) {
-            return new Response("Please provide a file id", 500);
+            return new Response('Please provide a file id', 500);
         }
 
         $manager = $this->getDoctrine()->getManager();
         $repo = $this->getDoctrine()->getRepository('LibrinfoMediaBundle:File');
 
         $file = $repo->findOneBy([
-            'id'    => $fileId,
-            'owned' => false
+            'id' => $fileId,
+            'owned' => false,
         ]);
 
-        if($file !== null) {
+        if ($file !== null) {
             $manager->remove($file);
             $manager->flush();
 
-            return new Response($file->getName() . " removed successfully", 200);
+            return new Response($file->getName().' removed successfully', 200);
         } else {
-            return new Response($file->getName() . " cannot be removed", 401);
+            return new Response($file->getName().' cannot be removed', 401);
         }
-
-
     }
 
     /**
-     * Retrieves
+     * Retrieves.
      *
      * @param Request $request
+     *
      * @return Response files converted to json array
      */
     public function loadAction(Request $request)
@@ -89,10 +99,10 @@ class UploadController extends Controller
             $event = new GenericEvent(
                 [
                 'request' => $request,
-                'context' => ['key' => $key, 'id' => $id, 'file' => $file]
+                'context' => ['key' => $key, 'id' => $id, 'file' => $file],
                 ], [
-                'file'  => $file,
-                'files' => $files
+                'file' => $file,
+                'files' => $files,
                 ]
             );
             $dispatcher->dispatch(UploadControllerEventListener::PRE_GET_ENTITY, $event);
@@ -108,13 +118,13 @@ class UploadController extends Controller
                 [
                 'request' => $request,
                 'context' => [
-                    'key'  => $key,
-                    'id'   => $id,
-                    'file' => $file
-                ]
+                    'key' => $key,
+                    'id' => $id,
+                    'file' => $file,
+                ],
                 ], [
-                'file'  => $file,
-                'files' => $files
+                'file' => $file,
+                'files' => $files,
                 ]
             );
             $dispatcher->dispatch(UploadControllerEventListener::POST_GET_ENTITY, $event);
@@ -122,5 +132,4 @@ class UploadController extends Controller
 
         return new JsonResponse($files, 200);
     }
-
 }

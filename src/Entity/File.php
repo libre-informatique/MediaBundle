@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of the Blast Project package.
+ *
+ * Copyright (C) 2015-2017 Libre Informatique
+ *
+ * This file is licenced under the GNU LGPL v3.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Librinfo\MediaBundle\Entity;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -9,7 +19,7 @@ use Blast\BaseEntitiesBundle\Entity\Traits\Jsonable;
 use AppBundle\Entity\OuterExtension\LibrinfoMediaBundle\FileExtension;
 
 /**
- * File
+ * File.
  */
 class File implements \JsonSerializable
 {
@@ -37,42 +47,39 @@ class File implements \JsonSerializable
      * @var UploadedFile file
      */
     private $file;
-    
+
     /**
      * @var object
      */
     private $parent;
-    
+
     /**
-     * @var boolean
+     * @var bool
      */
     private $owned;
-    
-    /**
-     * 
-     */
+
     public function __construct()
     {
         $this->initOuterExtendedClasses();
     }
 
     /**
-     * 
      * @param UploadedFile $file
+     *
      * @return \Librinfo\MediaBundle\Entity\File
      */
-    public function setFile( $file = null)
+    public function setFile($file = null)
     {
-        if ($file instanceof UploadedFile)
+        if ($file instanceof UploadedFile) {
             $this->file = base64_encode(file_get_contents($file));
-        else
+        } else {
             $this->file = $file;
-            
+        }
+
         return $this;
     }
 
     /**
-     * 
      * @return type
      */
     public function getFile()
@@ -81,16 +88,15 @@ class File implements \JsonSerializable
     }
 
     /**
-     * 
      * @return type
      */
     public function getBase64File()
     {
         return $this->file;
     }
-    
+
     /**
-     * Set parent
+     * Set parent.
      *
      * @param string $parent
      *
@@ -104,7 +110,7 @@ class File implements \JsonSerializable
     }
 
     /**
-     * Get parent
+     * Get parent.
      *
      * @return string
      */
@@ -114,7 +120,7 @@ class File implements \JsonSerializable
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -128,7 +134,7 @@ class File implements \JsonSerializable
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -138,7 +144,7 @@ class File implements \JsonSerializable
     }
 
     /**
-     * Set mimeType
+     * Set mimeType.
      *
      * @param string $mimeType
      *
@@ -152,7 +158,7 @@ class File implements \JsonSerializable
     }
 
     /**
-     * Get mimeType
+     * Get mimeType.
      *
      * @return string
      */
@@ -162,7 +168,7 @@ class File implements \JsonSerializable
     }
 
     /**
-     * Set size
+     * Set size.
      *
      * @param float $size
      *
@@ -176,7 +182,7 @@ class File implements \JsonSerializable
     }
 
     /**
-     * Get size
+     * Get size.
      *
      * @return float
      */
@@ -184,9 +190,9 @@ class File implements \JsonSerializable
     {
         return $this->size;
     }
-    
+
     /**
-     * Set owned
+     * Set owned.
      *
      * @param string $owned
      *
@@ -200,7 +206,7 @@ class File implements \JsonSerializable
     }
 
     /**
-     * Get owned
+     * Get owned.
      *
      * @return string
      */
@@ -208,7 +214,7 @@ class File implements \JsonSerializable
     {
         return $this->owned;
     }
-    
+
     public function __clone()
     {
         $this->id = null;

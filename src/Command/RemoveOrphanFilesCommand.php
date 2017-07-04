@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of the Blast Project package.
+ *
+ * Copyright (C) 2015-2017 Libre Informatique
+ *
+ * This file is licenced under the GNU LGPL v3.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Librinfo\MediaBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -23,27 +33,24 @@ class RemoveOrphanFilesCommand extends ContainerAwareCommand
     }
 
     /**
-     * 
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $count = 0;
-        
+
         $manager = $this->getContainer()->get('doctrine')->getManager();
-        
+
         $orphans = $manager->getRepository('LibrinfoMediaBundle:File')->findBy(['owned' => false]);
 
-        foreach( $orphans as $file )
-        {
-            $count ++;
+        foreach ($orphans as $file) {
+            ++$count;
             $manager->remove($file);
         }
-        
+
         $manager->flush();
-        
+
         $output->write(sprintf('%s orphan files where removed', $count), true);
     }
-
 }

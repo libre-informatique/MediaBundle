@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of the Blast Project package.
+ *
+ * Copyright (C) 2015-2017 Libre Informatique
+ *
+ * This file is licenced under the GNU LGPL v3.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Librinfo\MediaBundle\Form\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -8,11 +18,10 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 
 /**
- * File upload form type
+ * File upload form type.
  */
 class DropzoneType extends BaseAbstractType
 {
-
     public function getParent()
     {
         return 'form';
@@ -37,9 +46,8 @@ class DropzoneType extends BaseAbstractType
         parent::buildView($view, $form, $options);
 
         $view->vars = array_merge($view->vars, array(
-            'mediaContext'     => $options['mediaContext'],
-            'dropzoneTemplate' => $options['dropzoneTemplate']
+            'mediaContext' => $options['mediaContext'],
+            'dropzoneTemplate' => $options['dropzoneTemplate'],
         ));
     }
-
 }

@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of the Blast Project package.
+ *
+ * Copyright (C) 2015-2017 Libre Informatique
+ *
+ * This file is licenced under the GNU LGPL v3.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Librinfo\MediaBundle\Entity\OuterExtension;
 
 use Doctrine\Common\Collections\Collection;
@@ -13,7 +23,7 @@ trait HasImages
     private $images;
 
     /**
-     * Add image
+     * Add image.
      *
      * @param object $image
      *
@@ -22,15 +32,16 @@ trait HasImages
     public function addImage(File $image)
     {
         $this->images[] = $image;
+
         return $this;
     }
 
     /**
-     * Remove image
+     * Remove image.
      *
      * @param object $image
      *
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool tRUE if this collection contained the specified element, FALSE otherwise
      */
     public function removeImage(File $image)
     {
@@ -38,7 +49,7 @@ trait HasImages
     }
 
     /**
-     * Get images
+     * Get images.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -48,13 +59,14 @@ trait HasImages
     }
 
     /**
-     * Set images
+     * Set images.
      *
      * @return self
      */
     public function setImages(array $images)
     {
         $this->images = $images;
+
         return $this;
     }
 
