@@ -32,13 +32,13 @@ class GenerateImgTagExtension extends \Twig_Extension
 
         $alt = explode('.', $file->getName())[0];
 
-        $tag = '<img src="data:'.$file->getMimeType().';base64,'.$file->getBase64File().'" alt="'.$alt.'"';
+        $tag = '<img src="data:' . $file->getMimeType() . ';base64,' . $file->getBase64File() . '" alt="' . $alt . '"';
 
         if ($height) {
-            $tag .= '" height="'.$height.'"';
+            $tag .= '" height="' . $height . '"';
         }
         if ($width) {
-            $tag .= '" width="'.$width.'"';
+            $tag .= '" width="' . $width . '"';
         }
 
         $tag .= '/>';
