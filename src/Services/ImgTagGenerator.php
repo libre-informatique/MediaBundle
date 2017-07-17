@@ -29,7 +29,7 @@ class ImgTagGenerator
 
         $alt = explode('.', $file->getName())[0];
 
-        $tag = '<img src="data:'.$file->getMimeType().';base64,'.$file->getBase64File().'" alt="'.$alt.'" />';
+        $tag = '<img src="data:' . $file->getMimeType() . ';base64,' . $file->getBase64File() . '" alt="' . $alt . '" />';
 
         return $tag;
     }

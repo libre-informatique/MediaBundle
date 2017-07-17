@@ -206,7 +206,7 @@ class CRUDController extends BaseCRUDController
                 } catch (LockException $e) {
                     $this->addFlash('sonata_flash_error', $this->admin->trans('flash_lock_error', array(
                                 '%name%' => $this->escapeHtml($this->admin->toString($object)),
-                                '%link_start%' => '<a href="'.$this->admin->generateObjectUrl('edit', $object).'">',
+                                '%link_start%' => '<a href="' . $this->admin->generateObjectUrl('edit', $object) . '">',
                                 '%link_end%' => '</a>',
                                     ), 'SonataAdminBundle'));
                 }
@@ -288,7 +288,7 @@ class CRUDController extends BaseCRUDController
                         $object->setLibrinfoFile();
                         $this->manager->remove($file);
                     } else {
-                        throw new \Exception('You must define '.$className.'::removeLibrinfoFile() method or '.$className.'::setFile() in case of a one to one');
+                        throw new \Exception('You must define ' . $className . '::removeLibrinfoFile() method or ' . $className . '::setFile() in case of a one to one');
                     }
                 }
             }
@@ -306,7 +306,7 @@ class CRUDController extends BaseCRUDController
                         $object->setLibrinfoFile($file);
                         $file->setOwned(true);
                     } else {
-                        throw new \Exception('You must define '.$className.'::addLibrinfoFile() method or '.$className.'::setLibrinfoFile() in case of a one to one');
+                        throw new \Exception('You must define ' . $className . '::addLibrinfoFile() method or ' . $className . '::setLibrinfoFile() in case of a one to one');
                     }
                 }
             }
