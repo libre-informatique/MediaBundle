@@ -111,7 +111,6 @@ class UploadController extends Controller
 
             if ($file) {
                 $file->setFile($file->getBase64File());
-                $files[] = $file;
             }
 
             $event = new GenericEvent(
@@ -128,6 +127,12 @@ class UploadController extends Controller
                 ]
             );
             $dispatcher->dispatch(UploadControllerEventListener::POST_GET_ENTITY, $event);
+
+            $file = $event->getArgument('file');
+
+            if ($file) {
+                $files[] = $file;
+            }
         }
 
         return new JsonResponse($files, 200);
