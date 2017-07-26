@@ -137,6 +137,7 @@ var retrieveFiles = function(dropzone, dropzoneId) {
                     insertInput(files[i].id, 'add_files[]', dropzone, dropzoneId);
 
                 dropzone.emit('addedfile', files[i]);
+                $(document).trigger('dropzone.addedfile', [files[i]]);
                 dropzone.createThumbnailFromUrl(files[i], generateImgUrl(files[i]));
                 dropzone.emit('complete', files[i]);
             }

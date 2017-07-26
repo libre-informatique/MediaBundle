@@ -36,6 +36,9 @@ class UploadControllerEventListener
 
     public function postGetEntity(GenericEvent $event)
     {
+        $file = $event->getArgument('file');
+
+        $event->setArgument('file', $file);
     }
 
     public function setEm(EntityManager $em)
