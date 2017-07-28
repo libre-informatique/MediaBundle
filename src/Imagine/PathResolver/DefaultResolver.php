@@ -26,7 +26,12 @@ class DefaultResolver implements PathResolverInterface
     /**
      * @var File
      */
-    protected $cacheFile = null;
+    protected $cacheFile;
+
+    /**
+     * @var string
+     */
+    protected $webDir;
 
     public function resolvePath($id)
     {
@@ -65,6 +70,18 @@ class DefaultResolver implements PathResolverInterface
     public function setEm(EntityManager $em)
     {
         $this->em = $em;
+
+        return $this;
+    }
+
+    /**
+     * setWebDir.
+     *
+     * @param string $webDir
+     */
+    public function setWebDir($webDir)
+    {
+        $this->webDir = $webDir;
 
         return $this;
     }

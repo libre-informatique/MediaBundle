@@ -70,12 +70,13 @@ class UploadController extends Controller
         ]);
 
         if ($file !== null) {
+            $name = '' . $file->getName();
             $manager->remove($file);
             $manager->flush();
 
-            return new Response($file->getName() . ' removed successfully', 200);
+            return new Response($name . ' removed successfully', 200);
         } else {
-            return new Response($file->getName() . ' cannot be removed', 401);
+            return new Response('the file cannot be removed', 401);
         }
     }
 
