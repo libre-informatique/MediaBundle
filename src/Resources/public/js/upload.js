@@ -58,9 +58,11 @@ var setupDropzone = function(key, instance) {
         dictMaxFilesExceeded: $('[data-source="dropzone.maxFilesExceeded"]').data('target'),
         context: data.context
     };
-
+    var dropzone = $('#' + data.id).prop('dropzone');
     //init dropzone plugin
-    var dropzone = new Dropzone('#' + data.id, dzOptions);
+    if (typeof dropzone === 'undefined') {
+        dropzone = new Dropzone('#' + data.id, dzOptions);
+    }
 
     //prevent submitting of the form when add files button is clicked
     $('.add_files').click(function(e) {
