@@ -44,11 +44,14 @@ class CRUDController extends BaseCRUDController
 
         if ($class->isAbstract()) {
             return $this->render(
-                'SonataAdminBundle:CRUD:select_subclass.html.twig', array(
+                'SonataAdminBundle:CRUD:select_subclass.html.twig',
+                array(
                     'base_template' => $this->getBaseTemplate(),
                     'admin'         => $this->admin,
                     'action'        => 'create',
-                ), null, $request
+                ),
+                null,
+                $request
             );
         }
 
@@ -90,9 +93,12 @@ class CRUDController extends BaseCRUDController
                     }
 
                     $this->addFlash(
-                            'sonata_flash_success', $this->admin->trans(
-                                    'flash_create_success', array('%name%' => $this->escapeHtml($this->admin->toString($object))), 'SonataAdminBundle'
-                            )
+                        'sonata_flash_success',
+                        $this->admin->trans(
+                            'flash_create_success',
+                            array('%name%' => $this->escapeHtml($this->admin->toString($object))),
+                            'SonataAdminBundle'
+                        )
                     );
 
                     // redirect to edit mode
@@ -108,9 +114,12 @@ class CRUDController extends BaseCRUDController
             if (!$isFormValid) {
                 if (!$this->isXmlHttpRequest()) {
                     $this->addFlash(
-                            'sonata_flash_error', $this->admin->trans(
-                                    'flash_create_error', array('%name%' => $this->escapeHtml($this->admin->toString($object))), 'SonataAdminBundle'
-                            )
+                        'sonata_flash_error',
+                        $this->admin->trans(
+                            'flash_create_error',
+                            array('%name%' => $this->escapeHtml($this->admin->toString($object))),
+                            'SonataAdminBundle'
+                        )
                     );
                 }
             } elseif ($this->isPreviewRequested()) {
@@ -192,9 +201,12 @@ class CRUDController extends BaseCRUDController
                     }
 
                     $this->addFlash(
-                            'sonata_flash_success', $this->admin->trans(
-                                    'flash_edit_success', array('%name%' => $this->escapeHtml($this->admin->toString($object))), 'SonataAdminBundle'
-                            )
+                        'sonata_flash_success',
+                        $this->admin->trans(
+                            'flash_edit_success',
+                            array('%name%' => $this->escapeHtml($this->admin->toString($object))),
+                            'SonataAdminBundle'
+                        )
                     );
 
                     // redirect to edit mode
@@ -216,9 +228,12 @@ class CRUDController extends BaseCRUDController
             if (!$isFormValid) {
                 if (!$this->isXmlHttpRequest()) {
                     $this->addFlash(
-                            'sonata_flash_error', $this->admin->trans(
-                                    'flash_edit_error', array('%name%' => $this->escapeHtml($this->admin->toString($object))), 'SonataAdminBundle'
-                            )
+                        'sonata_flash_error',
+                        $this->admin->trans(
+                            'flash_edit_error',
+                            array('%name%' => $this->escapeHtml($this->admin->toString($object))),
+                            'SonataAdminBundle'
+                        )
                     );
                 }
             } elseif ($this->isPreviewRequested()) {
@@ -337,17 +352,5 @@ class CRUDController extends BaseCRUDController
         }
 
         $manager->flush();
-    }
-
-    protected function defineFormTheme($formView, $formTheme)
-    {
-        $twig = $this->get('twig');
-        $renderer = null;
-        if ($twig->hasExtension('Symfony\Bridge\Twig\Form\TwigRenderer')) {
-            $renderer = $twig->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer');
-        } else {
-            $renderer = $twig->getExtension('Symfony\Bridge\Twig\Extension\FormExtension')->renderer;
-        }
-        $renderer->setTheme($formView, $formTheme);
     }
 }
