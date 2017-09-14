@@ -6,7 +6,7 @@
         "php": ">=5.6",
         "symfony/symfony": ">=3.2",
         "symfony/event-dispatcher": ">=3.2",
-        "blast-project/core-bundle": "dev-wip-lisem"
+        "blast-project/core-bundle": "self.version"
     },
     "require-dev": {
         "symfony/phpunit-bridge": ">=3.2"
