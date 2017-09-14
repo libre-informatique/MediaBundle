@@ -19,6 +19,7 @@ class UploadControllerEventListener
 {
     const PRE_GET_ENTITY = 'librinfo.events.media.load.preGetEntity';
     const POST_GET_ENTITY = 'librinfo.events.media.load.postGetEntity';
+    const REMOVE_ENTITY = 'librinfo.events.media.removeEntity';
 
     /**
      * @var EntityManager

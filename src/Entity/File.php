@@ -215,6 +215,16 @@ class File implements \JsonSerializable
         return $this->owned;
     }
 
+    /**
+     * isOwned.
+     *
+     * @return bool
+     */
+    public function isOwned(): bool
+    {
+        return (bool) $this->owned;
+    }
+
     public function __clone()
     {
         $this->id = null;

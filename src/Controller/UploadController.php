@@ -66,10 +66,15 @@ class UploadController extends Controller
 
         $file = $repo->findOneBy([
             'id'    => $fileId,
-            'owned' => false,
         ]);
 
         if ($file !== null) {
+            if ($file->isOwned()) {
+                $dispatcher = $this->get('event_dispatcher');
+                $event = new GenericEvent($file);
+                $dispatcher->dispatch(UploadControllerEventListener::REMOVE_ENTITY, $event);
+            }
+
             $name = '' . $file->getName();
             $manager->remove($file);
             $manager->flush();
