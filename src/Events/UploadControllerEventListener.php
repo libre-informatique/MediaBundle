@@ -30,15 +30,13 @@ class UploadControllerEventListener
         $repo = $this->em->getRepository('LibrinfoMediaBundle:File');
 
         $file = $repo->find($event->getSubject()['context']['id']);
-
-        $event->setArgument('file', $file);
+        if ($file !== null) {
+            $event->setArgument('file', $file);
+        }
     }
 
     public function postGetEntity(GenericEvent $event)
     {
-        $file = $event->getArgument('file');
-
-        $event->setArgument('file', $file);
     }
 
     public function setEm(EntityManager $em)

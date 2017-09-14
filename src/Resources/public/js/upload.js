@@ -77,7 +77,6 @@ var setupDropzone = function(key, instance) {
 
         //file size validation
         if (file.size > 5 * 1024 * 1024) {
-
             dropzone.cancelUpload(file);
             dropzone.emit('error', file, 'Max file size(5mb) exceeded');
         }

@@ -65,7 +65,7 @@ class UploadController extends Controller
         $repo = $this->getDoctrine()->getRepository('LibrinfoMediaBundle:File');
 
         $file = $repo->findOneBy([
-            'id' => $fileId,
+            'id'    => $fileId,
             'owned' => false,
         ]);
 
@@ -99,11 +99,15 @@ class UploadController extends Controller
 
             $event = new GenericEvent(
                 [
-                'request' => $request,
-                'context' => ['key' => $key, 'id' => $id, 'file' => $file],
+                    'request' => $request,
+                    'context' => [
+                        'key'  => $key,
+                        'id'   => $id,
+                        'file' => $file,
+                    ],
                 ], [
-                'file' => $file,
-                'files' => $files,
+                    'file'  => null,
+                    'files' => $files,
                 ]
             );
             $dispatcher->dispatch(UploadControllerEventListener::PRE_GET_ENTITY, $event);
@@ -116,15 +120,15 @@ class UploadController extends Controller
 
             $event = new GenericEvent(
                 [
-                'request' => $request,
-                'context' => [
-                    'key' => $key,
-                    'id' => $id,
-                    'file' => $file,
-                ],
+                    'request' => $request,
+                    'context' => [
+                        'key'  => $key,
+                        'id'   => $id,
+                        'file' => $file,
+                    ],
                 ], [
-                'file' => $file,
-                'files' => $files,
+                    'file'  => $file,
+                    'files' => $files,
                 ]
             );
             $dispatcher->dispatch(UploadControllerEventListener::POST_GET_ENTITY, $event);
