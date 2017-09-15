@@ -1,5 +1,26 @@
 # Change Log
 
+## [Unreleased](https://github.com/libre-informatique/MediaBundle/tree/HEAD)
+
+[Full Changelog](https://github.com/libre-informatique/MediaBundle/compare/0.4.5...HEAD)
+
+**Merged pull requests:**
+
+- Lisem fix & features [\#18](https://github.com/libre-informatique/MediaBundle/pull/18) ([FanchTheSystem](https://github.com/FanchTheSystem))
+
+## [0.4.5](https://github.com/libre-informatique/MediaBundle/tree/0.4.5) (2017-07-26)
+[Full Changelog](https://github.com/libre-informatique/MediaBundle/compare/0.4.4...0.4.5)
+
+**Merged pull requests:**
+
+- DevKit updates for MediaBundle [\#17](https://github.com/libre-informatique/MediaBundle/pull/17) ([BlastCI](https://github.com/BlastCI))
+- Lisem fix & features [\#15](https://github.com/libre-informatique/MediaBundle/pull/15) ([FanchTheSystem](https://github.com/FanchTheSystem))
+- DevKit updates for MediaBundle [\#14](https://github.com/libre-informatique/MediaBundle/pull/14) ([BlastCI](https://github.com/BlastCI))
+- DevKit updates for MediaBundle [\#13](https://github.com/libre-informatique/MediaBundle/pull/13) ([BlastCI](https://github.com/BlastCI))
+- Wip lisem [\#12](https://github.com/libre-informatique/MediaBundle/pull/12) ([FanchTheSystem](https://github.com/FanchTheSystem))
+- DevKit updates for MediaBundle [\#11](https://github.com/libre-informatique/MediaBundle/pull/11) ([BlastCI](https://github.com/BlastCI))
+- DevKit updates for MediaBundle [\#10](https://github.com/libre-informatique/MediaBundle/pull/10) ([BlastCI](https://github.com/BlastCI))
+
 ## [0.4.4](https://github.com/libre-informatique/MediaBundle/tree/0.4.4) (2017-06-27)
 [Full Changelog](https://github.com/libre-informatique/MediaBundle/compare/0.4.3...0.4.4)
 
