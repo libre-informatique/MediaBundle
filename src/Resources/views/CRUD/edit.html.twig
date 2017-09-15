@@ -8,7 +8,6 @@
 {% endblock %}
 
 {% block dropzone_messages %}
-    {{ parent() }}
     <div class="js-i18n" data-source="dropzone.defaultMessage" data-target="{{ 'dropzone.defaultMessage'|trans() }}"></div>
     <div class="js-i18n" data-source="dropzone.fallbackMessage" data-target="{{ 'dropzone.fallbackMessage'|trans() }}"></div>
     <div class="js-i18n" data-source="dropzone.fallbackText" data-target="{{ 'dropzone.fallbackText'|trans() }}"></div>

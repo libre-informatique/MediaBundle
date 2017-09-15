@@ -19,6 +19,7 @@ class UploadControllerEventListener
 {
     const PRE_GET_ENTITY = 'librinfo.events.media.load.preGetEntity';
     const POST_GET_ENTITY = 'librinfo.events.media.load.postGetEntity';
+    const REMOVE_ENTITY = 'librinfo.events.media.removeEntity';
 
     /**
      * @var EntityManager
@@ -30,15 +31,13 @@ class UploadControllerEventListener
         $repo = $this->em->getRepository('LibrinfoMediaBundle:File');
 
         $file = $repo->find($event->getSubject()['context']['id']);
-
-        $event->setArgument('file', $file);
+        if ($file !== null) {
+            $event->setArgument('file', $file);
+        }
     }
 
     public function postGetEntity(GenericEvent $event)
     {
-        $file = $event->getArgument('file');
-
-        $event->setArgument('file', $file);
     }
 
     public function setEm(EntityManager $em)

@@ -46,7 +46,7 @@ class DropzoneType extends BaseAbstractType
         parent::buildView($view, $form, $options);
 
         $view->vars = array_merge($view->vars, array(
-            'mediaContext' => $options['mediaContext'],
+            'mediaContext'     => $options['mediaContext'],
             'dropzoneTemplate' => $options['dropzoneTemplate'],
         ));
     }

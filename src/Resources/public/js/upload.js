@@ -59,8 +59,11 @@ var setupDropzone = function(key, instance) {
         context: data.context
     };
 
+    var dropzone = $('#' + data.id).prop('dropzone');
     //init dropzone plugin
-    var dropzone = new Dropzone('#' + data.id, dzOptions);
+    if (typeof dropzone === 'undefined') {
+        dropzone = new Dropzone('#' + data.id, dzOptions);
+    }
 
     //prevent submitting of the form when add files button is clicked
     $('.add_files').click(function(e) {
@@ -75,7 +78,6 @@ var setupDropzone = function(key, instance) {
 
         //file size validation
         if (file.size > 5 * 1024 * 1024) {
-
             dropzone.cancelUpload(file);
             dropzone.emit('error', file, 'Max file size(5mb) exceeded');
         }
