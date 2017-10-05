@@ -9,4 +9,4 @@ dropzone:
    invalidFileType: 'Type de fichier non autorisé'
    fileTooBig: 'Taille maximum depassée'
    responseError: 'Une erreur est survenue'
-   maxFilesExceeded: '5 fichiers maximum'
+   maxFilesExceeded: 'Le nombre maximum de fichier est atteint'
