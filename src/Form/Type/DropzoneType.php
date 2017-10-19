@@ -30,10 +30,12 @@ class DropzoneType extends BaseAbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefault('mediaContext', 'default');
+        $resolver->setDefault('multipleFiles', true);
         $resolver->setDefault('dropzoneTemplate', 'LibrinfoMediaBundle:dropzone:dropzone_template.mustache.twig');
 
         $resolver->setAllowedTypes('mediaContext', 'string');
         $resolver->setAllowedTypes('dropzoneTemplate', 'string');
+        $resolver->setAllowedTypes('multipleFiles', 'boolean');
     }
 
     public function getBlockPrefix()
@@ -48,6 +50,7 @@ class DropzoneType extends BaseAbstractType
         $view->vars = array_merge($view->vars, array(
             'mediaContext'     => $options['mediaContext'],
             'dropzoneTemplate' => $options['dropzoneTemplate'],
+            'multipleFiles'    => $options['multipleFiles'],
         ));
     }
 }

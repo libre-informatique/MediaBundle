@@ -45,7 +45,7 @@ var setupDropzone = function(key, instance) {
         url: dzUrls.upload,
         paramName: "file",
         uploadMultiple: false,
-        maxFiles: 5,
+        maxFiles: data.multipleFiles === false ? 1 : 5,
         maxFileSize: 5,
         previewTemplate: template,
         clickable: ".add_files",
