@@ -35,6 +35,5 @@
         "psr-4": {
             "Librinfo\\MediaBundle\\": "src/"
         }
-    },
-    "version": "0.6.4"
+    }
 }
