@@ -35,5 +35,6 @@
         "psr-4": {
             "Librinfo\\MediaBundle\\": "src/"
         }
-    }
+    },
+    "version": "dev-wip-lisem"
 }
